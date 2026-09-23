@@ -20,6 +20,16 @@ fieldset {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  & label {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  & ul {
+    padding-left: 36px;
+  }
 }
 
 legend {

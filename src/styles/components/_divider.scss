@@ -5,17 +5,33 @@
   align-items: center;
   position: relative;
   top: -7px;
-}
 
-.divider-diamond {
-  width: 14px;
-  height: 14px;
-  background: var(--color-accent);
-  transform: rotate(45deg);
-}
+  &-diamond {
+    width: 14px;
+    height: 14px;
+    background: var(--color-accent);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
 
-.divider-line {
-  width: 250px;
-  height: 4px;
-  background: var(--color-accent);
+  &-line {
+    width: 250px;
+    height: 4px;
+    background: var(--color-accent);
+  }
+
+  &--label {
+    flex-direction: row-reverse;
+    position: unset;
+
+    .divider-diamond {
+      width: 10px;
+      height: 10px;
+    }
+
+    .divider-line {
+      height: 3px;
+      width: 41px;
+    }
+  }
 }
