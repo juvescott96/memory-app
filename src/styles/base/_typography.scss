@@ -1,0 +1,27 @@
+@use "../abstract/functions" as fct;
+
+$font-primary: "Almari", sans-serif;
+$font-secondary: "Red Rose", sans-serif;
+
+body {
+  font-family: $font-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: fct.px-to-rem(16);
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-secondary;
+}
+
+h1 {
+  font-size: fct.px-to-rem(144);
+  padding-bottom: 60px;
+}

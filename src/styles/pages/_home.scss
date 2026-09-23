@@ -1,0 +1,32 @@
+@use "../abstract/mixin" as fc;
+@use "../abstract/variables.scss";
+@use "../abstract/functions" as fct;
+
+body {
+  background-color: var(--color-primary);
+  color: white;
+  height: 100vh;
+  @include fc.flex-center(column);
+}
+
+svg {
+  &.stadia-transparent {
+    fill: #3a3b35;
+    rotate: 37deg;
+    width: 415px;
+    height: 302px;
+    position: absolute;
+    left: 10px;
+    bottom: 80px;
+  }
+}
+
+section {
+  @include fc.flex-center(column);
+
+  p {
+    font-size: fct.px-to-rem(48);
+    font-weight: 400;
+    align-self: flex-start;
+  }
+}

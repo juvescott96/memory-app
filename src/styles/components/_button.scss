@@ -1,0 +1,53 @@
+@use "../abstract/mixin" as fc;
+@use "../abstract/variables.scss";
+@use "../abstract/functions" as fct;
+@use "../base/typography" as tg;
+
+button {
+  @include fc.flex-center(row);
+
+  background-color: var(--color-accent);
+  border: none;
+  gap: 20px;
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+
+  & p {
+    font-size: fct.px-to-rem(40);
+    font-family: tg.$font-secondary;
+    font-weight: 700;
+  }
+
+  & svg {
+    &.__icon {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  .arrow-default {
+    display: block;
+  }
+
+  .arrow-hover {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+
+    & svg {
+      &.__icon {
+        transform: rotate(-37deg);
+      }
+    }
+
+    .arrow-default {
+      display: none;
+    }
+
+    .arrow-hover {
+      display: block;
+    }
+  }
+}
