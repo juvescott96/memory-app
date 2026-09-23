@@ -2,7 +2,7 @@
 @use "../abstract/variables.scss";
 @use "../abstract/functions" as fct;
 
-body {
+.home-page {
   background-color: var(--color-primary);
   color: white;
   height: 100vh;
@@ -21,7 +21,7 @@ svg {
   }
 }
 
-section {
+.ready-to-play {
   @include fc.flex-center(column);
 
   p {
