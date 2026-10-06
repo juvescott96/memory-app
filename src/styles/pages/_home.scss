@@ -21,6 +21,14 @@ svg {
   }
 }
 
+button {
+  padding: 20px;
+  gap: 20px;
+  & p {
+    font-size: fct.px-to-rem(40);
+  }
+}
+
 .ready-to-play {
   @include fc.flex-center(column);
 

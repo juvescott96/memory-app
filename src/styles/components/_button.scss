@@ -8,12 +8,9 @@ button {
 
   background-color: var(--color-accent);
   border: none;
-  gap: 20px;
-  padding: 20px;
   transition: all 0.3s ease-in-out;
 
   & p {
-    font-size: fct.px-to-rem(40);
     font-family: tg.$font-secondary;
     font-weight: 700;
   }

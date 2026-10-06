@@ -1,11 +1,18 @@
 @use "../abstract/variables.scss";
 @use "../abstract/mixin" as fc;
+@use "../abstract/functions" as fct;
 
 .settings-page {
   background-color: var(--color-secondary);
   color: black;
   height: 100vh;
   @include fc.flex-center(column);
+}
+
+section {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .left-side {
@@ -41,5 +48,18 @@ legend {
 .headline-settings {
   & h2 {
     padding-left: 24px;
+  }
+}
+
+.chosen-settings {
+  @include fc.flex-center(row);
+}
+
+button {
+  padding: 16px;
+  gap: 10px;
+
+  & p {
+    font-size: fct.px-to-rem(20);
   }
 }
