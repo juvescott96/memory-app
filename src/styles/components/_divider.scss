@@ -23,6 +23,7 @@
   &--label {
     flex-direction: row-reverse;
     position: unset;
+    opacity: 0;
 
     .divider-diamond {
       width: 10px;
@@ -38,16 +39,37 @@
   &--chosen {
     flex-direction: row-reverse;
     position: unset;
+    transform: rotate(109deg);
 
     .divider-diamond {
       width: 10px;
       height: 10px;
+      display: none;
     }
 
     .divider-line {
-      transform: rotate(109deg);
       height: 8px;
       width: 56px;
     }
+  }
+}
+
+fieldset {
+  input:checked ~ .divider--label {
+    opacity: 1;
+  }
+
+  label:hover .divider--label {
+    opacity: 1;
+  }
+}
+
+.chosen-settings--complete .divider--chosen {
+  .divider-diamond {
+    display: flex;
+  }
+
+  .divider-line {
+    height: 4px;
   }
 }

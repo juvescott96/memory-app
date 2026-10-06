@@ -36,9 +36,6 @@ fieldset {
 
   & input {
     cursor: pointer;
-    &:checked ~ .divider--label {
-      opacity: 1;
-    }
 
     &:checked ~ p {
       font-weight: 700;
@@ -50,20 +47,10 @@ fieldset {
     flex-direction: row;
     gap: 10px;
     cursor: pointer;
-
-    &:hover .divider--label {
-      opacity: 1;
-    }
   }
 
   & ul {
     padding-left: 36px;
-  }
-}
-
-.divider {
-  &--label {
-    opacity: 0;
   }
 }
 
