@@ -34,4 +34,20 @@
       width: 41px;
     }
   }
+
+  &--chosen {
+    flex-direction: row-reverse;
+    position: unset;
+
+    .divider-diamond {
+      width: 10px;
+      height: 10px;
+    }
+
+    .divider-line {
+      transform: rotate(109deg);
+      height: 8px;
+      width: 56px;
+    }
+  }
 }
