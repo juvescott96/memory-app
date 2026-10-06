@@ -48,3 +48,9 @@ button {
     }
   }
 }
+
+.disabledbtn {
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: rgb(219, 219, 214);
+}

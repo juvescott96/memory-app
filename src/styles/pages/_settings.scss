@@ -28,14 +28,30 @@ fieldset {
   flex-direction: column;
   gap: 8px;
 
+  & input {
+    &:checked ~ .divider--label {
+      opacity: 1;
+    }
+  }
+
   & label {
     display: flex;
     flex-direction: row;
     gap: 10px;
+
+    &:hover .divider--label {
+      opacity: 1;
+    }
   }
 
   & ul {
     padding-left: 36px;
+  }
+}
+
+.divider {
+  &--label {
+    opacity: 0;
   }
 }
 
