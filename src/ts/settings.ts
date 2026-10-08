@@ -11,7 +11,9 @@ const themeImages: Record<string, string> = {
 };
 
 function updateThemeImage(input: HTMLInputElement): void {
-  const image = document.getElementById("theme-visual") as HTMLImageElement | null;
+  const image = document.getElementById(
+    "theme-visual",
+  ) as HTMLImageElement | null;
   const src = themeImages[input.value];
   if (image && src) {
     image.src = src;
@@ -67,3 +69,24 @@ settingsRadios.forEach((radio) => {
 });
 
 checkAllSelected();
+
+const gameButton = document.getElementById("game-button");
+
+gameButton?.addEventListener("click", () => {
+  localStorage.setItem(
+    "theme",
+    document.querySelector<HTMLInputElement>('input[name="theme"]:checked')
+      ?.value || "",
+  );
+  localStorage.setItem(
+    "player",
+    document.querySelector<HTMLInputElement>('input[name="player"]:checked')
+      ?.value || "",
+  );
+  localStorage.setItem(
+    "board-size",
+    document.querySelector<HTMLInputElement>('input[name="board-size"]:checked')
+      ?.value || "",
+  );
+  window.location.href = "game.html";
+});

@@ -1,0 +1,18 @@
+@use "../abstract/mixin" as fc;
+
+.headline {
+  @include fc.flex-center(row);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.players {
+  @include fc.flex-center(row);
+  gap: 20px;
+}
+
+.current-player {
+  @include fc.flex-center(column);
+}
