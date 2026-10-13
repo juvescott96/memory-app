@@ -16,3 +16,10 @@
 .current-player {
   @include fc.flex-center(column);
 }
+
+#field {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), 120px);
+  gap: 12px;
+  justify-content: center;
+}

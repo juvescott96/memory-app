@@ -1,6 +1,6 @@
 .card {
-  height: 100px;
-  aspect-ratio: 1 / 1;
+  height: 120px;
+  width: 120px;
   background-color: transparent;
   padding: 0;
 
@@ -15,12 +15,10 @@
   &__face {
     position: absolute;
     inset: 0;
-    background-color: red;
     backface-visibility: hidden;
 
     &--back {
       transform: rotateY(180deg);
-      background-color: green;
     }
   }
 

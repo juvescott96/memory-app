@@ -59,6 +59,12 @@ const themes: Record<string, ThemeData> = {
   },
 };
 
+const cardsNumber: Record<number, number> = {
+  16: 4,
+  24: 6,
+  36: 6,
+};
+
 function init() {
   const fieldRef = document.getElementById("field");
 
@@ -89,6 +95,7 @@ function createCards(theme: string | null, boardSize: number): void {
   }
 
   fieldRef.innerHTML = "";
+  fieldRef.style.setProperty("--grid-size", `${cardsNumber[boardSize]}`);
 
   cards.forEach((name) => {
     const card = document.createElement("button");
