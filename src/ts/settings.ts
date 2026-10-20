@@ -5,9 +5,8 @@ const settingsTargets: Record<string, string> = {
 };
 
 const themeImages: Record<string, string> = {
-  "Code vibes theme":
-    "./public/assets/code-vibes-theme-card/code-vibes-theme.png",
-  "Gaming theme": "./public/assets/games-theme-cards/game-theme.png",
+  "Code vibes theme": "./public/assets/code-vibes-theme-card/cb-theme.svg",
+  "Gaming theme": "./public/assets/games-theme-cards/g-theme.svg",
 };
 
 function updateThemeImage(input: HTMLInputElement): void {

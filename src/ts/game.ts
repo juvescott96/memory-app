@@ -2,6 +2,10 @@ let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 const theme: string | null = localStorage.getItem("theme");
 
+let flippedCard: HTMLButtonElement | null = null;
+let lockBoard: boolean = false;
+let currentPlayer: string = localStorage.getItem("player") || "Blue";
+
 type ThemeData = {
   folder: string;
   back: string;

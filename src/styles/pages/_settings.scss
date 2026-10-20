@@ -26,6 +26,7 @@ section {
 .right-side {
   @include fc.flex-center(column);
   gap: 20px;
+  width: 100%;
 }
 
 fieldset {
