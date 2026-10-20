@@ -1,1 +1,22 @@
+[data-theme="code-vibes"] {
+  .card {
+    height: 120px;
+    width: 120px;
 
+    &__face {
+      border-radius: 0;
+      box-shadow: none;
+
+      &:not(.card__face--back) {
+        background:
+          url("/assets/code-vibes-theme-card/cv-logo.svg") center / 60px
+            no-repeat,
+          linear-gradient(215deg, #4dd5bc, #286f62);
+      }
+
+      &--back {
+        background-color: #e8f3f0;
+      }
+    }
+  }
+}

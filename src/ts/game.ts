@@ -10,6 +10,7 @@ type ThemeData = {
 
 const themes: Record<string, ThemeData> = {
   "Code vibes theme": {
+    id: "code-vibes",
     folder: "code-vibes-theme-card",
     back: "cvt-card",
     motifs: [
@@ -34,6 +35,7 @@ const themes: Record<string, ThemeData> = {
     ],
   },
   "Gaming theme": {
+    id: "games-theme",
     folder: "games-theme-cards",
     back: "gt-card",
     motifs: [
@@ -65,8 +67,18 @@ const cardsNumber: Record<number, number> = {
   36: 6,
 };
 
+const cardsGap: Record<number, number> = {
+  16: 12,
+  24: 6,
+  36: 6,
+};
+
 function init() {
   const fieldRef = document.getElementById("field");
+  const themeData = theme ? themes[theme] : undefined;
+  if (themeData) {
+    document.body.dataset.theme = themeData.id;
+  }
 
   if (fieldRef) {
     fieldRef.addEventListener("click", (e) => {
@@ -78,6 +90,7 @@ function init() {
       }
     });
   }
+
   createCards(theme, boardSize);
 }
 
@@ -96,6 +109,7 @@ function createCards(theme: string | null, boardSize: number): void {
 
   fieldRef.innerHTML = "";
   fieldRef.style.setProperty("--grid-size", `${cardsNumber[boardSize]}`);
+  fieldRef.style.setProperty("--grid-gap", `${cardsGap[boardSize]}px`);
 
   cards.forEach((name) => {
     const card = document.createElement("button");
@@ -107,11 +121,10 @@ function createCards(theme: string | null, boardSize: number): void {
 
     const front = document.createElement("div");
     front.classList.add("card__face");
-    front.style.backgroundImage = `url(./public/assets/${data.folder}/${data.back}.png)`;
 
     const back = document.createElement("div");
     back.classList.add("card__face", "card__face--back");
-    back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.png)`;
+    back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.svg)`;
 
     inner.append(front, back);
     card.appendChild(inner);

@@ -20,6 +20,6 @@
 #field {
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 120px);
-  gap: 12px;
+  gap: var(--grid-gap);
   justify-content: center;
 }
