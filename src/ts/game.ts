@@ -80,22 +80,71 @@ const cardsGap: Record<number, number> = {
 function init() {
   const fieldRef = document.getElementById("field");
   const themeData = theme ? themes[theme] : undefined;
+  setTheme(themeData);
+  addClickListener(fieldRef);
+  createCards(theme, boardSize);
+}
+
+function setTheme(themeData?: ThemeData): void {
   if (themeData) {
     document.body.dataset.theme = themeData.id;
   }
+}
 
-  if (fieldRef) {
-    fieldRef.addEventListener("click", (e) => {
-      const card = (e.target as HTMLElement).closest(
-        ".card",
-      ) as HTMLButtonElement;
-      if (card) {
-        card.classList.toggle("is-flipped");
-      }
-    });
+function handleCardClick(e: MouseEvent): void {
+  const card = getCard(e);
+  if (!card || !isClickable(card)) return;
+
+  card.classList.add("is-flipped");
+  if (!flippedCard) {
+    flippedCard = card;
+    return;
   }
+  if (checkMatch(flippedCard, card)) {
+    flippedCard = null;
+    return;
+  }
+  handleMismatch(card);
+}
 
-  createCards(theme, boardSize);
+function getCard(e: MouseEvent): HTMLButtonElement | null {
+  return (e.target as HTMLElement).closest<HTMLButtonElement>(".card");
+}
+
+function isClickable(card: HTMLButtonElement): boolean {
+  return (
+    !lockBoard && card !== flippedCard && !card.classList.contains("is-flipped")
+  );
+}
+
+function addClickListener(fieldRef: HTMLElement | null): void {
+  fieldRef?.addEventListener("click", handleCardClick);
+}
+
+function handleMismatch(card: HTMLButtonElement): void {
+  lockBoard = true;
+  setTimeout(() => {
+    card.classList.remove("is-flipped");
+    flippedCard?.classList.remove("is-flipped");
+    flippedCard = null;
+    lockBoard = false;
+    switchPlayer();
+  }, 1000);
+}
+
+function checkMatch(
+  card1: HTMLButtonElement,
+  card2: HTMLButtonElement,
+): boolean {
+  return card1.dataset.motif === card2.dataset.motif;
+}
+
+function switchPlayer() {
+  if (currentPlayer === "Blue") {
+    currentPlayer = "Orange";
+  } else {
+    currentPlayer = "Blue";
+  }
 }
 
 function createCards(theme: string | null, boardSize: number): void {
