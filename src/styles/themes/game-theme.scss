@@ -1,4 +1,14 @@
+@use "../base/typography" as tg;
+
 [data-theme="games-theme"] {
+  background-color: #294f60;
+  color: white;
+  font-family: tg.$font-third;
+
+  .headline {
+    background-color: #535d75;
+  }
+
   .card {
     height: 120px;
     width: 105px;

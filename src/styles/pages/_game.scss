@@ -2,10 +2,13 @@
 
 .headline {
   @include fc.flex-center(row);
-  max-width: 1440px;
+  max-width: 1220px;
   width: 100%;
   margin: 0 auto;
   justify-content: space-between;
+  height: 102px;
+  margin-top: 40px;
+  padding: 20px;
 }
 
 .players {

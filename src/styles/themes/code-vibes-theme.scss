@@ -1,4 +1,10 @@
+@use "../base/typography" as tg;
+
 [data-theme="code-vibes"] {
+  background-color: #303131;
+  color: white;
+  font-family: tg.$font-secondary;
+
   .card {
     height: 120px;
     width: 120px;
