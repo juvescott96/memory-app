@@ -27,4 +27,24 @@
       }
     }
   }
+
+  button {
+    background-color: #3a4b62;
+    color: white;
+    border: #e7244f solid;
+    border-width: 2px;
+    border-radius: 10px;
+
+    &:hover {
+      border-width: 3px;
+
+      & svg {
+        fill: #e7244f;
+      }
+    }
+
+    & svg {
+      fill: white;
+    }
+  }
 }

@@ -8,6 +8,7 @@
   .card {
     height: 120px;
     width: 120px;
+    border: none;
 
     &__face {
       border-radius: 0;
@@ -23,6 +24,21 @@
       &--back {
         background-color: #e8f3f0;
       }
+    }
+  }
+
+  button {
+    background-color: #3c4b48;
+    color: white;
+    border: #4dd5bc solid;
+    border-width: 2px;
+
+    &:hover {
+      border-width: 3px;
+    }
+
+    & svg {
+      fill: white;
     }
   }
 }
