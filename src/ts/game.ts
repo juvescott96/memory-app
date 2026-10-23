@@ -1,16 +1,26 @@
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 const theme: string | null = localStorage.getItem("theme");
+const FLIPPED: string = "is-flipped";
 
 let flippedCard: HTMLButtonElement | null = null;
 let lockBoard: boolean = false;
 let currentPlayer: string = localStorage.getItem("player") || "Blue";
 
-type ThemeData = {
+interface ThemeData {
+  id: string;
   folder: string;
   back: string;
   motifs: string[];
-};
+  showLabel: boolean;
+}
+
+interface Player {
+  color: "Blue" | "Orange";
+  label?: string;
+  score: number;
+  svg: string;
+}
 
 const themes: Record<string, ThemeData> = {
   "Code vibes theme": {
@@ -37,6 +47,7 @@ const themes: Record<string, ThemeData> = {
       "vsc",
       "vuejs",
     ],
+    showLabel: true,
   },
   "Gaming theme": {
     id: "games-theme",
@@ -62,6 +73,7 @@ const themes: Record<string, ThemeData> = {
       "sqo",
       "acard",
     ],
+    showLabel: false,
   },
 };
 
@@ -81,6 +93,7 @@ function init() {
   const fieldRef = document.getElementById("field");
   const themeData = theme ? themes[theme] : undefined;
   setTheme(themeData);
+  if (themeData) renderPlayers(themeData);
   addClickListener(fieldRef);
   createCards(theme, boardSize);
 }
@@ -95,7 +108,7 @@ function handleCardClick(e: MouseEvent): void {
   const card = getCard(e);
   if (!card || !isClickable(card)) return;
 
-  card.classList.add("is-flipped");
+  card.classList.add(FLIPPED);
   if (!flippedCard) {
     flippedCard = card;
     return;
@@ -113,7 +126,7 @@ function getCard(e: MouseEvent): HTMLButtonElement | null {
 
 function isClickable(card: HTMLButtonElement): boolean {
   return (
-    !lockBoard && card !== flippedCard && !card.classList.contains("is-flipped")
+    !lockBoard && card !== flippedCard && !card.classList.contains(FLIPPED)
   );
 }
 
@@ -124,8 +137,8 @@ function addClickListener(fieldRef: HTMLElement | null): void {
 function handleMismatch(card: HTMLButtonElement): void {
   lockBoard = true;
   setTimeout(() => {
-    card.classList.remove("is-flipped");
-    flippedCard?.classList.remove("is-flipped");
+    card.classList.remove(FLIPPED);
+    flippedCard?.classList.remove(FLIPPED);
     flippedCard = null;
     lockBoard = false;
     switchPlayer();
@@ -183,6 +196,54 @@ function createCards(theme: string | null, boardSize: number): void {
     card.appendChild(inner);
     fieldRef.appendChild(card);
   });
+}
+
+function createPlayerBox(player: Player): HTMLDivElement {
+  const playerLeft = document.createElement("div");
+  playerLeft.classList.add("content");
+
+  const picture = createPlayerImage(player.svg);
+  const label = document.createElement("p");
+  const score = document.createElement("p");
+  score.textContent = String(player.score);
+  score.classList.add("score");
+
+  playerLeft.append(picture);
+  if (player.label) {
+    label.textContent = player.label;
+    playerLeft.append(label);
+  }
+  playerLeft.append(score);
+
+  return playerLeft;
+}
+
+function createPlayerImage(src: string): HTMLImageElement {
+  const picture = document.createElement("img");
+  picture.src = src;
+  picture.classList.add("players-img");
+
+  return picture;
+}
+
+function renderPlayers(themeData: ThemeData): void {
+  const players = document.getElementById("players");
+  if (!players) return;
+
+  const blue: Player = {
+    color: "Blue",
+    label: themeData.showLabel ? "Blue" : undefined,
+    score: 0,
+    svg: `./public/assets/${themeData.folder}/player-blue.svg`,
+  };
+  const orange: Player = {
+    color: "Orange",
+    label: themeData.showLabel ? "Orange" : undefined,
+    score: 0,
+    svg: `./public/assets/${themeData.folder}/player-orange.svg`,
+  };
+
+  players.append(createPlayerBox(blue), createPlayerBox(orange));
 }
 
 init();
