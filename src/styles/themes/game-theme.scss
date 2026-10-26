@@ -1,4 +1,5 @@
 @use "../base/typography" as tg;
+@use "../abstract/functions" as fct;
 
 [data-theme="games-theme"] {
   background-color: #294f60;
@@ -34,9 +35,12 @@
     border: #e7244f solid;
     border-width: 2px;
     border-radius: 10px;
+    transform: none;
+    transition: none;
 
     &:hover {
       border-width: 3px;
+      background-color: #444863;
 
       & svg {
         fill: #e7244f;
@@ -46,5 +50,25 @@
     & svg {
       fill: white;
     }
+  }
+
+  .blue {
+    color: #2cb1ff;
+
+    & svg {
+      fill: #2cb1ff;
+    }
+  }
+
+  .orange {
+    color: #ea6900;
+
+    & svg {
+      fill: #ea6900;
+    }
+  }
+
+  .score {
+    font-size: fct.px-to-rem(30);
   }
 }

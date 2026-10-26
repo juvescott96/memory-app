@@ -32,13 +32,37 @@
     color: white;
     border: #4dd5bc solid;
     border-width: 2px;
+    transform: none;
+    transition: none;
 
     &:hover {
       border-width: 3px;
+      background-color: #46615c;
     }
 
     & svg {
       fill: white;
+    }
+  }
+
+  .players {
+    background-color: #415652;
+    padding: 20px;
+  }
+
+  .blue {
+    color: #2cb1ff;
+
+    & svg {
+      fill: #2cb1ff;
+    }
+  }
+
+  .orange {
+    color: #f58e39;
+
+    & svg {
+      fill: #f58e39;
     }
   }
 }

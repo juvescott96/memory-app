@@ -26,3 +26,8 @@
   gap: var(--grid-gap);
   justify-content: center;
 }
+
+.content {
+  @include fc.flex-center(row);
+  gap: 8px;
+}

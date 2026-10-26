@@ -1,3 +1,6 @@
+import themeCVT from "../styles/themes/svg/player-blue.svg?raw";
+import themeGT from "../styles/themes/svg/player.svg?raw";
+
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 const theme: string | null = localStorage.getItem("theme");
@@ -13,6 +16,7 @@ interface ThemeData {
   back: string;
   motifs: string[];
   showLabel: boolean;
+  playerSvg: string;
 }
 
 interface Player {
@@ -48,6 +52,7 @@ const themes: Record<string, ThemeData> = {
       "vuejs",
     ],
     showLabel: true,
+    playerSvg: themeCVT,
   },
   "Gaming theme": {
     id: "games-theme",
@@ -74,6 +79,7 @@ const themes: Record<string, ThemeData> = {
       "acard",
     ],
     showLabel: false,
+    playerSvg: themeGT,
   },
 };
 
@@ -200,7 +206,7 @@ function createCards(theme: string | null, boardSize: number): void {
 
 function createPlayerBox(player: Player): HTMLDivElement {
   const playerLeft = document.createElement("div");
-  playerLeft.classList.add("content");
+  playerLeft.classList.add("content", player.color.toLowerCase());
 
   const picture = createPlayerImage(player.svg);
   const label = document.createElement("p");
@@ -218,9 +224,9 @@ function createPlayerBox(player: Player): HTMLDivElement {
   return playerLeft;
 }
 
-function createPlayerImage(src: string): HTMLImageElement {
-  const picture = document.createElement("img");
-  picture.src = src;
+function createPlayerImage(svgText: string): HTMLDivElement {
+  const picture = document.createElement("div");
+  picture.innerHTML = svgText;
   picture.classList.add("players-img");
 
   return picture;
@@ -234,13 +240,13 @@ function renderPlayers(themeData: ThemeData): void {
     color: "Blue",
     label: themeData.showLabel ? "Blue" : undefined,
     score: 0,
-    svg: `./public/assets/${themeData.folder}/player-blue.svg`,
+    svg: themeData.playerSvg,
   };
   const orange: Player = {
     color: "Orange",
     label: themeData.showLabel ? "Orange" : undefined,
     score: 0,
-    svg: `./public/assets/${themeData.folder}/player-orange.svg`,
+    svg: themeData.playerSvg,
   };
 
   players.append(createPlayerBox(blue), createPlayerBox(orange));
