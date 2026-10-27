@@ -68,7 +68,46 @@
     }
   }
 
+  .current {
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+
+    &.orange {
+      background-color: #ea6900;
+
+      & svg {
+        fill: white;
+        width: 25px;
+        height: 32px;
+      }
+    }
+
+    &.blue {
+      background-color: #2cb1ff;
+
+      & svg {
+        fill: white;
+        width: 25px;
+        height: 32px;
+      }
+    }
+  }
+
+  .current-player {
+    & p {
+      font-size: fct.px-to-rem(32);
+      font-weight: 700;
+    }
+  }
+
   .score {
     font-size: fct.px-to-rem(30);
+  }
+
+  .players {
+    background-color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
   }
 }

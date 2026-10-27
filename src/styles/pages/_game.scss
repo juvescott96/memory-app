@@ -16,8 +16,13 @@
   gap: 20px;
 }
 
+.players-img {
+  @include fc.flex-center(row);
+}
+
 .current-player {
-  @include fc.flex-center(column);
+  @include fc.flex-center(row);
+  gap: 16px;
 }
 
 #field {
@@ -30,4 +35,8 @@
 .content {
   @include fc.flex-center(row);
   gap: 8px;
+}
+
+.current {
+  @include fc.flex-center(row);
 }

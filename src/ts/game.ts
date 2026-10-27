@@ -99,7 +99,10 @@ function init() {
   const fieldRef = document.getElementById("field");
   const themeData = theme ? themes[theme] : undefined;
   setTheme(themeData);
-  if (themeData) renderPlayers(themeData);
+  if (themeData) {
+    renderPlayers(themeData);
+    currentPlayers(themeData);
+  }
   addClickListener(fieldRef);
   createCards(theme, boardSize);
 }
@@ -164,6 +167,8 @@ function switchPlayer() {
   } else {
     currentPlayer = "Blue";
   }
+  const themeData = theme ? themes[theme] : undefined;
+  if (themeData) currentPlayers(themeData);
 }
 
 function createCards(theme: string | null, boardSize: number): void {
@@ -250,6 +255,15 @@ function renderPlayers(themeData: ThemeData): void {
   };
 
   players.append(createPlayerBox(blue), createPlayerBox(orange));
+}
+
+function currentPlayers(themeData: ThemeData): void {
+  const currPlayers = document.getElementById("currentPlayer");
+  if (!currPlayers) return;
+
+  currPlayers.innerHTML = themeData.playerSvg;
+  currPlayers.classList.remove("blue", "orange");
+  currPlayers.classList.add("current", currentPlayer.toLowerCase());
 }
 
 init();
