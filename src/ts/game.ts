@@ -128,6 +128,8 @@ function handleCardClick(e: MouseEvent): void {
     return;
   }
   if (checkMatch(flippedCard, card)) {
+    flippedCard?.classList.add("is-matched");
+    card.classList.add("is-matched");
     flippedCard = null;
     scores[currentPlayer] += 1;
     updateScore();

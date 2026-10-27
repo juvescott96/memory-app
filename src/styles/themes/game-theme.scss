@@ -14,6 +14,12 @@
     height: 120px;
     width: 105px;
 
+    &.is-matched .card__face--back {
+      box-shadow:
+        inset 0 0 0 3px #ed2976,
+        6px 6px 15px rgba(237, 41, 118, 0.4);
+    }
+
     &__face {
       border-radius: 16px;
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.45);
