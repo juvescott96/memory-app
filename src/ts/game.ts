@@ -133,6 +133,10 @@ function handleCardClick(e: MouseEvent): void {
     flippedCard = null;
     scores[currentPlayer] += 1;
     updateScore();
+    if (isGameOver()) {
+      const winner = getWinner();
+      console.log(winner);
+    }
     return;
   }
   handleMismatch(card);
@@ -282,6 +286,21 @@ function currentPlayers(themeData: ThemeData): void {
   currPlayers.innerHTML = themeData.playerSvg;
   currPlayers.classList.remove("blue", "orange");
   currPlayers.classList.add("current", currentPlayer.toLowerCase());
+}
+
+function isGameOver(): boolean {
+  const foundPairs = scores.Orange + scores.Blue;
+  return foundPairs === boardSize / 2;
+}
+
+function getWinner(): string {
+  if (scores.Blue > scores.Orange) {
+    return "Blue";
+  } else if (scores.Orange > scores.Blue) {
+    return "Orange";
+  } else {
+    return "Draw";
+  }
 }
 
 init();
