@@ -10,6 +10,11 @@ let flippedCard: HTMLButtonElement | null = null;
 let lockBoard: boolean = false;
 let currentPlayer: string = localStorage.getItem("player") || "Blue";
 
+const scores: Record<string, number> = {
+  Blue: 0,
+  Orange: 0,
+};
+
 interface ThemeData {
   id: string;
   folder: string;
@@ -124,9 +129,20 @@ function handleCardClick(e: MouseEvent): void {
   }
   if (checkMatch(flippedCard, card)) {
     flippedCard = null;
+    scores[currentPlayer] += 1;
+    updateScore();
     return;
   }
   handleMismatch(card);
+}
+
+function updateScore(): void {
+  const scoreRef = document.querySelector(
+    `.${currentPlayer.toLowerCase()} .score`,
+  );
+  if (!scoreRef) return;
+
+  scoreRef.textContent = String(scores[currentPlayer]);
 }
 
 function getCard(e: MouseEvent): HTMLButtonElement | null {
