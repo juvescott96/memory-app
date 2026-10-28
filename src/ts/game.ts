@@ -135,7 +135,7 @@ function handleCardClick(e: MouseEvent): void {
     updateScore();
     if (isGameOver()) {
       const winner = getWinner();
-      console.log(winner);
+      showGameOver();
     }
     return;
   }
@@ -266,13 +266,13 @@ function renderPlayers(themeData: ThemeData): void {
   const blue: Player = {
     color: "Blue",
     label: themeData.showLabel ? "Blue" : undefined,
-    score: 0,
+    score: scores.Blue,
     svg: themeData.playerSvg,
   };
   const orange: Player = {
     color: "Orange",
     label: themeData.showLabel ? "Orange" : undefined,
-    score: 0,
+    score: scores.Orange,
     svg: themeData.playerSvg,
   };
 
@@ -301,6 +301,35 @@ function getWinner(): string {
   } else {
     return "Draw";
   }
+}
+
+function showGameOver(): void {
+  const themeData = theme ? themes[theme] : undefined;
+
+  document.body.innerHTML = "";
+  document.body.classList.add("game-over-screen");
+
+  const center = createEl("div", "game-over-content");
+  const headline = createEl("h1", "game-over", "Game Over");
+  const box = createEl("div", "final-score-content");
+  const title = createEl("p", "final-score-title", "Final score");
+  const playerBox = createEl("div", "players");
+  playerBox.id = "players";
+
+  box.append(title, playerBox);
+  center.append(headline, box);
+  document.body.append(center);
+
+  if (themeData) {
+    renderPlayers(themeData);
+  }
+}
+
+function createEl(tag: string, className: string, text?: string): HTMLElement {
+  const el = document.createElement(tag);
+  el.classList.add(className);
+  if (text) el.textContent = text;
+  return el;
 }
 
 init();
