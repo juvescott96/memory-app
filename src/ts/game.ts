@@ -1,5 +1,7 @@
 import themeCVT from "../styles/themes/svg/player-blue.svg?raw";
 import themeGT from "../styles/themes/svg/player.svg?raw";
+import drawSvg from "../styles/themes/svg/draw.svg?raw";
+import winnerGt from "../styles/themes/svg/winner-gt.svg?raw";
 
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
@@ -22,6 +24,7 @@ interface ThemeData {
   motifs: string[];
   showLabel: boolean;
   playerSvg: string;
+  winnerSvg: string;
 }
 
 interface Player {
@@ -58,6 +61,7 @@ const themes: Record<string, ThemeData> = {
     ],
     showLabel: true,
     playerSvg: themeCVT,
+    winnerSvg: themeGT,
   },
   "Gaming theme": {
     id: "games-theme",
@@ -85,6 +89,7 @@ const themes: Record<string, ThemeData> = {
     ],
     showLabel: false,
     playerSvg: themeGT,
+    winnerSvg: winnerGt,
   },
 };
 
@@ -135,7 +140,7 @@ function handleCardClick(e: MouseEvent): void {
     updateScore();
     if (isGameOver()) {
       const winner = getWinner();
-      showGameOver();
+      showGameOver(winner);
     }
     return;
   }
@@ -303,7 +308,7 @@ function getWinner(): string {
   }
 }
 
-function showGameOver(): void {
+function showGameOver(winner: string): void {
   const themeData = theme ? themes[theme] : undefined;
 
   document.body.innerHTML = "";
@@ -323,6 +328,46 @@ function showGameOver(): void {
   if (themeData) {
     renderPlayers(themeData);
   }
+
+  setTimeout(() => {
+    showWinner(winner);
+  }, 2000);
+}
+
+function showWinner(winner: string): void {
+  const themeData = theme ? themes[theme] : undefined;
+  document.body.innerHTML = "";
+  document.body.classList.add("game-over-screen");
+  const confetti = createEl("img", "confetti");
+
+  const center = createEl("div", "game-over-content");
+  center.classList.add(winner.toLowerCase());
+
+  const box = createEl("div", "final-score-content");
+  let titleText: string;
+  let headlineText: string;
+  let draw: string;
+
+  if (winner === "Draw") {
+    titleText = "It's a";
+    headlineText = `${winner.toUpperCase()}`;
+    draw = drawSvg;
+  } else {
+    titleText = "The winner is";
+    headlineText = `${winner.toUpperCase()} PLAYER`;
+    draw = themeData?.winnerSvg ?? "";
+  }
+
+  const title = createEl("p", "winner-title", titleText);
+  const headline = createEl("h2", "winner-headline", headlineText);
+
+  const playerSvg = document.createElement("div");
+  playerSvg.classList.add("winner-svg");
+  playerSvg.innerHTML = draw;
+
+  box.append(title, headline);
+  center.append(box, playerSvg);
+  document.body.append(confetti, center);
 }
 
 function createEl(tag: string, className: string, text?: string): HTMLElement {

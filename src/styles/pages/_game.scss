@@ -48,9 +48,22 @@
 
 .final-score-content {
   @include fc.flex-center(column);
-  gap: 28px;
+  gap: 14px;
 
-  & p {
-    font-size: fct.px-to-rem(26);
+  & h2 {
+    font-size: fct.px-to-rem(60);
   }
+}
+
+.game-over-content {
+  @include fc.flex-center(column);
+  gap: 80px;
+}
+
+.winner-svg {
+  @include fc.flex-center(column);
+}
+
+.winner-title {
+  font-size: fct.px-to-rem(40);
 }

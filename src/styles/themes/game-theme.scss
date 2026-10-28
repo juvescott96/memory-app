@@ -116,4 +116,31 @@
     padding: 8px 16px;
     border-radius: 10px;
   }
+
+  &.game-over-screen {
+    .winner-title {
+      color: white;
+    }
+
+    .blue .winner-headline {
+      color: #2298db;
+    }
+    .orange .winner-headline {
+      color: #ea6900;
+    }
+    .draw .winner-headline {
+      color: #ed1b76;
+    }
+
+    .winner-svg svg {
+      width: 200px;
+      height: 250px;
+      stroke-width: 0.1px;
+    }
+
+    .draw .winner-svg svg {
+      fill: #ed1b76;
+      stroke: #ed1b76;
+    }
+  }
 }

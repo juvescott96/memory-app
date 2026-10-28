@@ -69,4 +69,45 @@
       fill: #f58e39;
     }
   }
+
+  &.game-over-screen {
+    .winner-title {
+      color: white;
+    }
+
+    .blue .winner-headline {
+      color: #2cb1ff;
+    }
+    .orange .winner-headline {
+      color: #f58e39;
+    }
+    .draw .winner-headline {
+      color: #4dd5bc;
+      font-size: 140px;
+      text-shadow:
+        -4px -3px 2px rgba(77, 213, 188, 0.3),
+        0 0 1px white,
+        -4px -3px 2px white;
+    }
+
+    .winner-svg svg {
+      width: 200px;
+      height: 250px;
+      stroke-width: 0.1px;
+    }
+    .blue .winner-svg svg {
+      fill: #2cb1ff;
+      stroke: #2cb1ff;
+    }
+    .orange .winner-svg svg {
+      fill: #f58e39;
+      stroke: #f58e39;
+    }
+    .draw .winner-svg svg {
+      fill: #4dd5bc;
+      stroke: #4dd5bc;
+      width: 340px;
+      height: 270px;
+    }
+  }
 }
