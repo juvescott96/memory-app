@@ -2,6 +2,7 @@ import themeCVT from "../styles/themes/svg/player-blue.svg?raw";
 import themeGT from "../styles/themes/svg/player.svg?raw";
 import drawSvg from "../styles/themes/svg/draw.svg?raw";
 import winnerGt from "../styles/themes/svg/winner-gt.svg?raw";
+import confettiSvg from "../styles/themes/svg/confetti.svg?raw";
 
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
@@ -338,7 +339,8 @@ function showWinner(winner: string): void {
   const themeData = theme ? themes[theme] : undefined;
   document.body.innerHTML = "";
   document.body.classList.add("game-over-screen");
-  const confetti = createEl("img", "confetti");
+  const confetti = createEl("div", "confetti");
+  confetti.innerHTML = confettiSvg.repeat(3);
 
   const center = createEl("div", "game-over-content");
   center.classList.add(winner.toLowerCase());
