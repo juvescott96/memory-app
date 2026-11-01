@@ -1,16 +1,15 @@
-import themeCVT from "../styles/themes/svg/player-blue.svg?raw";
-import themeGT from "../styles/themes/svg/player.svg?raw";
+import { themes, type ThemeData } from "./theme";
+import { exitDialog } from "./dialog";
+import { createEl } from "./dom";
+import { addClickListener, createCards } from "./cards";
+
 import drawSvg from "../styles/themes/svg/draw.svg?raw";
-import winnerGt from "../styles/themes/svg/winner-gt.svg?raw";
 import confettiSvg from "../styles/themes/svg/confetti.svg?raw";
 
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 const theme: string | null = localStorage.getItem("theme");
-const FLIPPED: string = "is-flipped";
 
-let flippedCard: HTMLButtonElement | null = null;
-let lockBoard: boolean = false;
 let currentPlayer: string = localStorage.getItem("player") || "Blue";
 
 const scores: Record<string, number> = {
@@ -18,96 +17,12 @@ const scores: Record<string, number> = {
   Orange: 0,
 };
 
-interface ThemeData {
-  id: string;
-  folder: string;
-  back: string;
-  motifs: string[];
-  showLabel: boolean;
-  playerSvg: string;
-  winnerSvg: string;
-  confettiSvg: boolean;
-}
-
 interface Player {
   color: "Blue" | "Orange";
   label?: string;
   score: number;
   svg: string;
 }
-
-const themes: Record<string, ThemeData> = {
-  "Code vibes theme": {
-    id: "code-vibes",
-    folder: "code-vibes-theme-card",
-    back: "cvt-card",
-    motifs: [
-      "angular",
-      "bootstrap",
-      "css",
-      "django",
-      "firebase",
-      "git",
-      "github",
-      "html",
-      "js",
-      "nodejs",
-      "python",
-      "react",
-      "sass",
-      "sql",
-      "terminal",
-      "ts",
-      "vsc",
-      "vuejs",
-    ],
-    showLabel: true,
-    playerSvg: themeCVT,
-    winnerSvg: themeGT,
-    confettiSvg: true,
-  },
-  "Gaming theme": {
-    id: "games-theme",
-    folder: "games-theme-cards",
-    back: "gt-card",
-    motifs: [
-      "banana",
-      "champions",
-      "coin",
-      "controller",
-      "dice",
-      "gameboy",
-      "labyrinth",
-      "medal",
-      "minecraft",
-      "pacman",
-      "pacmanface",
-      "play",
-      "puzzle",
-      "snake",
-      "sq3",
-      "sq4",
-      "sqo",
-      "acard",
-    ],
-    showLabel: false,
-    playerSvg: themeGT,
-    winnerSvg: winnerGt,
-    confettiSvg: false,
-  },
-};
-
-const cardsNumber: Record<number, number> = {
-  16: 4,
-  24: 6,
-  36: 6,
-};
-
-const cardsGap: Record<number, number> = {
-  16: 12,
-  24: 6,
-  36: 6,
-};
 
 function init() {
   const fieldRef = document.getElementById("field");
@@ -117,7 +32,7 @@ function init() {
     renderPlayers(themeData);
     currentPlayers(themeData);
   }
-  addClickListener(fieldRef);
+  addClickListener(fieldRef, handleMatch, switchPlayer);
   exitDialog();
   createCards(theme, boardSize);
 }
@@ -128,30 +43,6 @@ function setTheme(themeData?: ThemeData): void {
   }
 }
 
-function handleCardClick(e: MouseEvent): void {
-  const card = getCard(e);
-  if (!card || !isClickable(card)) return;
-
-  card.classList.add(FLIPPED);
-  if (!flippedCard) {
-    flippedCard = card;
-    return;
-  }
-  if (checkMatch(flippedCard, card)) {
-    flippedCard?.classList.add("is-matched");
-    card.classList.add("is-matched");
-    flippedCard = null;
-    scores[currentPlayer] += 1;
-    updateScore();
-    if (isGameOver()) {
-      const winner = getWinner();
-      showGameOver(winner);
-    }
-    return;
-  }
-  handleMismatch(card);
-}
-
 function updateScore(): void {
   const scoreRef = document.querySelector(
     `.${currentPlayer.toLowerCase()} .score`,
@@ -159,38 +50,6 @@ function updateScore(): void {
   if (!scoreRef) return;
 
   scoreRef.textContent = String(scores[currentPlayer]);
-}
-
-function getCard(e: MouseEvent): HTMLButtonElement | null {
-  return (e.target as HTMLElement).closest<HTMLButtonElement>(".card");
-}
-
-function isClickable(card: HTMLButtonElement): boolean {
-  return (
-    !lockBoard && card !== flippedCard && !card.classList.contains(FLIPPED)
-  );
-}
-
-function addClickListener(fieldRef: HTMLElement | null): void {
-  fieldRef?.addEventListener("click", handleCardClick);
-}
-
-function handleMismatch(card: HTMLButtonElement): void {
-  lockBoard = true;
-  setTimeout(() => {
-    card.classList.remove(FLIPPED);
-    flippedCard?.classList.remove(FLIPPED);
-    flippedCard = null;
-    lockBoard = false;
-    switchPlayer();
-  }, 1000);
-}
-
-function checkMatch(
-  card1: HTMLButtonElement,
-  card2: HTMLButtonElement,
-): boolean {
-  return card1.dataset.motif === card2.dataset.motif;
 }
 
 function switchPlayer() {
@@ -203,89 +62,14 @@ function switchPlayer() {
   if (themeData) currentPlayers(themeData);
 }
 
-function exitDialog(): void {
-  const exitBtn = document.getElementById("exit-btn") as HTMLButtonElement;
-  const backBtn = document.getElementById("back-btn") as HTMLButtonElement;
-  const exitGameBtn = document.getElementById(
-    "exit-game-btn",
-  ) as HTMLButtonElement;
-  const dialog = document.querySelector("dialog") as HTMLDialogElement;
-
-  if (!exitBtn || !backBtn || !exitGameBtn || !dialog) return;
-
-  exitBtn.addEventListener("click", () => {
-    dialog.showModal();
-  });
-
-  dialog.addEventListener("click", (e) => {
-    if (e.target === dialog) {
-      closeDialog(dialog);
-    }
-  });
-
-  dialog.addEventListener("cancel", (e) => {
-    e.preventDefault();
-    closeDialog(dialog);
-  });
-
-  backBtn.addEventListener("click", () => {
-    closeDialog(dialog);
-  });
-
-  exitGameBtn.addEventListener("click", () => {
-    window.location.href = "settings.html";
-  });
-}
-
-function closeDialog(dialog: HTMLDialogElement): void {
-  dialog.classList.add("closing");
-
-  dialog.addEventListener(
-    "animationend",
-    () => {
-      dialog.close();
-      dialog.classList.remove("closing");
-    },
-    { once: true },
-  );
-}
-
-function createCards(theme: string | null, boardSize: number): void {
-  const fieldRef = document.getElementById("field");
-  const data = theme ? themes[theme] : undefined;
-  if (!fieldRef || !data) return;
-
-  const chosen = data.motifs.slice(0, boardSize / 2);
-  const cards = [...chosen, ...chosen];
-
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
+function handleMatch() {
+  scores[currentPlayer] += 1;
+  updateScore();
+  if (isGameOver()) {
+    const winner = getWinner();
+    showGameOver(winner);
   }
-
-  fieldRef.innerHTML = "";
-  fieldRef.style.setProperty("--grid-size", `${cardsNumber[boardSize]}`);
-  fieldRef.style.setProperty("--grid-gap", `${cardsGap[boardSize]}px`);
-
-  cards.forEach((name) => {
-    const card = document.createElement("button");
-    card.classList.add("card");
-    card.dataset.motif = name;
-
-    const inner = document.createElement("div");
-    inner.classList.add("card__inner");
-
-    const front = document.createElement("div");
-    front.classList.add("card__face");
-
-    const back = document.createElement("div");
-    back.classList.add("card__face", "card__face--back");
-    back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.svg)`;
-
-    inner.append(front, back);
-    card.appendChild(inner);
-    fieldRef.appendChild(card);
-  });
+  return;
 }
 
 function createPlayerBox(player: Player): HTMLDivElement {
@@ -434,13 +218,6 @@ function addConfetti(): HTMLElement {
   const confetti = createEl("div", "confetti");
   confetti.innerHTML = confettiSvg.repeat(3);
   return confetti;
-}
-
-function createEl(tag: string, className: string, text?: string): HTMLElement {
-  const el = document.createElement(tag);
-  el.classList.add(className);
-  if (text) el.textContent = text;
-  return el;
 }
 
 init();
