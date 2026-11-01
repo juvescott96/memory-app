@@ -118,6 +118,7 @@ function init() {
     currentPlayers(themeData);
   }
   addClickListener(fieldRef);
+  exitDialog();
   createCards(theme, boardSize);
 }
 
@@ -200,6 +201,53 @@ function switchPlayer() {
   }
   const themeData = theme ? themes[theme] : undefined;
   if (themeData) currentPlayers(themeData);
+}
+
+function exitDialog(): void {
+  const exitBtn = document.getElementById("exit-btn") as HTMLButtonElement;
+  const backBtn = document.getElementById("back-btn") as HTMLButtonElement;
+  const exitGameBtn = document.getElementById(
+    "exit-game-btn",
+  ) as HTMLButtonElement;
+  const dialog = document.querySelector("dialog") as HTMLDialogElement;
+
+  if (!exitBtn || !backBtn || !exitGameBtn || !dialog) return;
+
+  exitBtn.addEventListener("click", () => {
+    dialog.showModal();
+  });
+
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) {
+      closeDialog(dialog);
+    }
+  });
+
+  dialog.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    closeDialog(dialog);
+  });
+
+  backBtn.addEventListener("click", () => {
+    closeDialog(dialog);
+  });
+
+  exitGameBtn.addEventListener("click", () => {
+    window.location.href = "settings.html";
+  });
+}
+
+function closeDialog(dialog: HTMLDialogElement): void {
+  dialog.classList.add("closing");
+
+  dialog.addEventListener(
+    "animationend",
+    () => {
+      dialog.close();
+      dialog.classList.remove("closing");
+    },
+    { once: true },
+  );
 }
 
 function createCards(theme: string | null, boardSize: number): void {

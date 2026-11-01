@@ -1,0 +1,33 @@
+dialog {
+  margin: auto;
+}
+
+dialog[open] {
+  animation: dialog-show 0.5s ease-out;
+}
+
+dialog.closing {
+  animation: dialog-close 0.3s ease-in;
+}
+
+@keyframes dialog-show {
+  from {
+    opacity: 0;
+    transform: translateY(-400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-close {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-400px);
+  }
+}
