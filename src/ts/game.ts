@@ -26,6 +26,7 @@ interface ThemeData {
   showLabel: boolean;
   playerSvg: string;
   winnerSvg: string;
+  confettiSvg: boolean;
 }
 
 interface Player {
@@ -63,6 +64,7 @@ const themes: Record<string, ThemeData> = {
     showLabel: true,
     playerSvg: themeCVT,
     winnerSvg: themeGT,
+    confettiSvg: true,
   },
   "Gaming theme": {
     id: "games-theme",
@@ -91,6 +93,7 @@ const themes: Record<string, ThemeData> = {
     showLabel: false,
     playerSvg: themeGT,
     winnerSvg: winnerGt,
+    confettiSvg: false,
   },
 };
 
@@ -339,8 +342,10 @@ function showWinner(winner: string): void {
   const themeData = theme ? themes[theme] : undefined;
   document.body.innerHTML = "";
   document.body.classList.add("game-over-screen");
-  const confetti = createEl("div", "confetti");
-  confetti.innerHTML = confettiSvg.repeat(3);
+  if (themeData?.confettiSvg && winner !== "Draw") {
+    const confetti = addConfetti();
+    document.body.appendChild(confetti);
+  }
 
   const center = createEl("div", "game-over-content");
   center.classList.add(winner.toLowerCase());
@@ -367,9 +372,20 @@ function showWinner(winner: string): void {
   playerSvg.classList.add("winner-svg");
   playerSvg.innerHTML = draw;
 
+  const button = createEl("button", "backbutton", "Back to start");
+  button.addEventListener("click", () => {
+    window.location.href = "settings.html";
+  });
+
   box.append(title, headline);
-  center.append(box, playerSvg);
-  document.body.append(confetti, center);
+  center.append(box, playerSvg, button);
+  document.body.append(center);
+}
+
+function addConfetti(): HTMLElement {
+  const confetti = createEl("div", "confetti");
+  confetti.innerHTML = confettiSvg.repeat(3);
+  return confetti;
 }
 
 function createEl(tag: string, className: string, text?: string): HTMLElement {
