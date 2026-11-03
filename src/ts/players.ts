@@ -1,14 +1,6 @@
-export type { Player };
-export {
-  scores,
-  renderPlayers,
-  currentPlayers,
-  switchPlayer,
-  updateScore,
-  addPoint,
-};
+export { scores, renderPlayers, switchPlayer, addPoint };
 
-import { themes, type ThemeData, getCurrentTheme } from "./theme";
+import { type ThemeData, getCurrentTheme } from "./theme";
 import { createEl } from "./dom";
 
 let currentPlayer: string = localStorage.getItem("player") || "Blue";
