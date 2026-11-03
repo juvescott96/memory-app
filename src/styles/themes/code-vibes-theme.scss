@@ -40,74 +40,101 @@
     transition: none;
 
     &:hover {
-      border-width: 3px;
       background-color: #46615c;
     }
 
     & svg {
       fill: white;
     }
+
+    &#exit-btn {
+      &:hover {
+        box-shadow: inset 0 0 0 1px #4dd5bc;
+      }
+    }
+  }
+}
+
+.players {
+  background-color: #415652;
+  padding: 20px;
+}
+
+.blue {
+  color: #2cb1ff;
+
+  & svg {
+    fill: #2cb1ff;
+  }
+}
+
+.orange {
+  color: #f58e39;
+
+  & svg {
+    fill: #f58e39;
+  }
+}
+
+&.game-over-screen {
+  .winner-title {
+    color: white;
   }
 
-  .players {
-    background-color: #415652;
-    padding: 20px;
-  }
-
-  .blue {
+  .blue .winner-headline {
     color: #2cb1ff;
-
-    & svg {
-      fill: #2cb1ff;
-    }
   }
-
-  .orange {
+  .orange .winner-headline {
     color: #f58e39;
-
-    & svg {
-      fill: #f58e39;
-    }
+  }
+  .draw .winner-headline {
+    color: #4dd5bc;
+    font-size: 140px;
+    text-shadow:
+      -4px -3px 2px rgba(77, 213, 188, 0.3),
+      0 0 1px white,
+      -4px -3px 2px white;
   }
 
-  &.game-over-screen {
-    .winner-title {
-      color: white;
+  .winner-svg svg {
+    width: 200px;
+    height: 250px;
+    stroke-width: 0.1px;
+  }
+  .blue .winner-svg svg {
+    fill: #2cb1ff;
+    stroke: #2cb1ff;
+  }
+  .orange .winner-svg svg {
+    fill: #f58e39;
+    stroke: #f58e39;
+  }
+  .draw .winner-svg svg {
+    fill: #4dd5bc;
+    stroke: #4dd5bc;
+    width: 340px;
+    height: 270px;
+  }
+}
+
+dialog {
+  & button {
+    &#back-btn {
+      background-color: rgba(102, 207, 188, 1);
+
+      &:hover {
+        background-color: rgba(102, 207, 188, 0.8);
+      }
     }
 
-    .blue .winner-headline {
-      color: #2cb1ff;
-    }
-    .orange .winner-headline {
-      color: #f58e39;
-    }
-    .draw .winner-headline {
+    &#exit-game-btn {
+      background-color: white;
+      border: solid 2px #4dd5bc;
       color: #4dd5bc;
-      font-size: 140px;
-      text-shadow:
-        -4px -3px 2px rgba(77, 213, 188, 0.3),
-        0 0 1px white,
-        -4px -3px 2px white;
-    }
 
-    .winner-svg svg {
-      width: 200px;
-      height: 250px;
-      stroke-width: 0.1px;
-    }
-    .blue .winner-svg svg {
-      fill: #2cb1ff;
-      stroke: #2cb1ff;
-    }
-    .orange .winner-svg svg {
-      fill: #f58e39;
-      stroke: #f58e39;
-    }
-    .draw .winner-svg svg {
-      fill: #4dd5bc;
-      stroke: #4dd5bc;
-      width: 340px;
-      height: 270px;
+      &:hover {
+        background-color: #4dd5bc20;
+      }
     }
   }
 }
