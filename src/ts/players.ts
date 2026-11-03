@@ -1,4 +1,4 @@
-export { scores, renderPlayers, switchPlayer, addPoint };
+export { scores, renderPlayers, currentPlayers, switchPlayer, addPoint };
 
 import { type ThemeData, getCurrentTheme } from "./theme";
 import { createEl } from "./dom";

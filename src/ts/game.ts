@@ -1,7 +1,13 @@
 import { type ThemeData, getCurrentTheme } from "./theme";
 import { exitDialog } from "./dialog";
 import { addClickListener, createCards } from "./cards";
-import { scores, renderPlayers, switchPlayer, addPoint } from "./players";
+import {
+  scores,
+  renderPlayers,
+  switchPlayer,
+  currentPlayers,
+  addPoint,
+} from "./players";
 import { showGameOver } from "./end-screen";
 
 let boardNumber: string | null = localStorage.getItem("board-size");
