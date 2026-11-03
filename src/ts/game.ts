@@ -32,7 +32,10 @@ function init() {
     renderPlayers(themeData);
     currentPlayers(themeData);
   }
-  addClickListener(fieldRef, handleMatch, switchPlayer);
+  addClickListener(fieldRef, {
+    onMatch: handleMatch,
+    onMismatch: switchPlayer,
+  });
   exitDialog();
   createCards(theme, boardSize);
 }

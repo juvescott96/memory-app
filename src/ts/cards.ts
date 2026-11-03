@@ -1,9 +1,15 @@
 export { addClickListener, createCards };
-import { themes } from "./theme";
+import { themes, type ThemeData } from "./theme";
+import { createEl } from "./dom";
 
 let lockBoard: boolean = false;
 let flippedCard: HTMLButtonElement | null = null;
 const FLIPPED: string = "is-flipped";
+
+interface CardHandlers {
+  onMatch: () => void;
+  onMismatch: () => void;
+}
 
 const cardsNumber: Record<number, number> = {
   16: 4,
@@ -22,37 +28,47 @@ function createCards(theme: string | null, boardSize: number): void {
   const data = theme ? themes[theme] : undefined;
   if (!fieldRef || !data) return;
 
-  const chosen = data.motifs.slice(0, boardSize / 2);
-  const cards = [...chosen, ...chosen];
+  const cards = pickMotifs(data, boardSize);
+  const deck = shuffleCards(cards);
 
+  fieldRef.innerHTML = "";
+  setGrid(fieldRef, boardSize);
+  deck.forEach((name) => {
+    fieldRef.appendChild(buildCard(name, data));
+  });
+}
+
+function pickMotifs(data: ThemeData, boardSize: number): string[] {
+  const chosen = data.motifs.slice(0, boardSize / 2);
+  return [...chosen, ...chosen];
+}
+
+function setGrid(fieldRef: HTMLElement, boardSize: number): void {
+  fieldRef.style.setProperty("--grid-size", `${cardsNumber[boardSize]}`);
+  fieldRef.style.setProperty("--grid-gap", `${cardsGap[boardSize]}px`);
+}
+
+function shuffleCards(cards: string[]): string[] {
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
+  return cards;
+}
 
-  fieldRef.innerHTML = "";
-  fieldRef.style.setProperty("--grid-size", `${cardsNumber[boardSize]}`);
-  fieldRef.style.setProperty("--grid-gap", `${cardsGap[boardSize]}px`);
+function buildCard(name: string, data: ThemeData): HTMLButtonElement {
+  const card = createEl("button", "card") as HTMLButtonElement;
+  card.dataset.motif = name;
 
-  cards.forEach((name) => {
-    const card = document.createElement("button");
-    card.classList.add("card");
-    card.dataset.motif = name;
+  const inner = createEl("div", "card__inner") as HTMLDivElement;
+  const front = createEl("div", "card__face") as HTMLDivElement;
+  const back = createEl("div", "card__face card__face--back") as HTMLDivElement;
 
-    const inner = document.createElement("div");
-    inner.classList.add("card__inner");
+  back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.svg)`;
 
-    const front = document.createElement("div");
-    front.classList.add("card__face");
-
-    const back = document.createElement("div");
-    back.classList.add("card__face", "card__face--back");
-    back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.svg)`;
-
-    inner.append(front, back);
-    card.appendChild(inner);
-    fieldRef.appendChild(card);
-  });
+  inner.append(front, back);
+  card.appendChild(inner);
+  return card;
 }
 
 function getCard(e: MouseEvent): HTMLButtonElement | null {
@@ -72,11 +88,7 @@ function checkMatch(
   return card1.dataset.motif === card2.dataset.motif;
 }
 
-function handleCardClick(
-  e: MouseEvent,
-  onMatch: () => void,
-  onMismatch: () => void,
-): void {
+function handleCardClick(e: MouseEvent, handlers: CardHandlers): void {
   const card = getCard(e);
   if (!card || !isClickable(card)) return;
 
@@ -86,32 +98,33 @@ function handleCardClick(
     return;
   }
   if (checkMatch(flippedCard, card)) {
-    flippedCard?.classList.add("is-matched");
-    card.classList.add("is-matched");
-    flippedCard = null;
-    onMatch();
+    handlePair(card, handlers);
     return;
   }
-  handleMismatch(card, onMismatch);
+  handleMismatch(card, handlers);
 }
 
-function handleMismatch(card: HTMLButtonElement, onMismatch: () => void): void {
+function handlePair(card: HTMLButtonElement, handlers: CardHandlers): void {
+  flippedCard?.classList.add("is-matched");
+  card.classList.add("is-matched");
+  flippedCard = null;
+  handlers.onMatch();
+}
+
+function handleMismatch(card: HTMLButtonElement, handlers: CardHandlers): void {
   lockBoard = true;
   setTimeout(() => {
     card.classList.remove(FLIPPED);
     flippedCard?.classList.remove(FLIPPED);
     flippedCard = null;
     lockBoard = false;
-    onMismatch();
+    handlers.onMismatch();
   }, 1000);
 }
 
 function addClickListener(
   fieldRef: HTMLElement | null,
-  onMatch: () => void,
-  onMismatch: () => void,
+  handlers: CardHandlers,
 ): void {
-  fieldRef?.addEventListener("click", (e) =>
-    handleCardClick(e, onMatch, onMismatch),
-  );
+  fieldRef?.addEventListener("click", (e) => handleCardClick(e, handlers));
 }
