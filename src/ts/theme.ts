@@ -1,4 +1,4 @@
-export { themes, type ThemeData };
+export { themes, type ThemeData, getCurrentTheme };
 
 import themeCVT from "../styles/themes/svg/player-blue.svg?raw";
 import themeGT from "../styles/themes/svg/player.svg?raw";
@@ -75,3 +75,8 @@ const themes: Record<string, ThemeData> = {
     confettiSvg: false,
   },
 };
+
+function getCurrentTheme(): ThemeData | undefined {
+  const theme = localStorage.getItem("theme");
+  return theme ? themes[theme] : undefined;
+}

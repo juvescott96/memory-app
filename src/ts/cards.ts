@@ -1,5 +1,5 @@
 export { addClickListener, createCards };
-import { themes, type ThemeData } from "./theme";
+import { type ThemeData } from "./theme";
 import { createEl } from "./dom";
 
 let lockBoard: boolean = false;
@@ -23,18 +23,20 @@ const cardsGap: Record<number, number> = {
   36: 6,
 };
 
-function createCards(theme: string | null, boardSize: number): void {
+function createCards(
+  themeData: ThemeData | undefined,
+  boardSize: number,
+): void {
   const fieldRef = document.getElementById("field");
-  const data = theme ? themes[theme] : undefined;
-  if (!fieldRef || !data) return;
+  if (!fieldRef || !themeData) return;
 
-  const cards = pickMotifs(data, boardSize);
+  const cards = pickMotifs(themeData, boardSize);
   const deck = shuffleCards(cards);
 
   fieldRef.innerHTML = "";
   setGrid(fieldRef, boardSize);
   deck.forEach((name) => {
-    fieldRef.appendChild(buildCard(name, data));
+    fieldRef.appendChild(buildCard(name, themeData));
   });
 }
 

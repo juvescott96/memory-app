@@ -1,32 +1,24 @@
-import { themes, type ThemeData } from "./theme";
+import { themes, type ThemeData, getCurrentTheme } from "./theme";
 import { exitDialog } from "./dialog";
 import { createEl } from "./dom";
 import { addClickListener, createCards } from "./cards";
+import {
+  scores,
+  renderPlayers,
+  currentPlayers,
+  switchPlayer,
+  addPoint,
+} from "./players";
 
 import drawSvg from "../styles/themes/svg/draw.svg?raw";
 import confettiSvg from "../styles/themes/svg/confetti.svg?raw";
 
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
-const theme: string | null = localStorage.getItem("theme");
-
-let currentPlayer: string = localStorage.getItem("player") || "Blue";
-
-const scores: Record<string, number> = {
-  Blue: 0,
-  Orange: 0,
-};
-
-interface Player {
-  color: "Blue" | "Orange";
-  label?: string;
-  score: number;
-  svg: string;
-}
 
 function init() {
   const fieldRef = document.getElementById("field");
-  const themeData = theme ? themes[theme] : undefined;
+  const themeData = getCurrentTheme();
   setTheme(themeData);
   if (themeData) {
     renderPlayers(themeData);
@@ -37,7 +29,7 @@ function init() {
     onMismatch: switchPlayer,
   });
   exitDialog();
-  createCards(theme, boardSize);
+  createCards(themeData, boardSize);
 }
 
 function setTheme(themeData?: ThemeData): void {
@@ -46,90 +38,12 @@ function setTheme(themeData?: ThemeData): void {
   }
 }
 
-function updateScore(): void {
-  const scoreRef = document.querySelector(
-    `.${currentPlayer.toLowerCase()} .score`,
-  );
-  if (!scoreRef) return;
-
-  scoreRef.textContent = String(scores[currentPlayer]);
-}
-
-function switchPlayer() {
-  if (currentPlayer === "Blue") {
-    currentPlayer = "Orange";
-  } else {
-    currentPlayer = "Blue";
-  }
-  const themeData = theme ? themes[theme] : undefined;
-  if (themeData) currentPlayers(themeData);
-}
-
 function handleMatch() {
-  scores[currentPlayer] += 1;
-  updateScore();
+  addPoint();
   if (isGameOver()) {
     const winner = getWinner();
     showGameOver(winner);
   }
-  return;
-}
-
-function createPlayerBox(player: Player): HTMLDivElement {
-  const playerLeft = document.createElement("div");
-  playerLeft.classList.add("content", player.color.toLowerCase());
-
-  const picture = createPlayerImage(player.svg);
-  const label = document.createElement("p");
-  const score = document.createElement("p");
-  score.textContent = String(player.score);
-  score.classList.add("score");
-
-  playerLeft.append(picture);
-  if (player.label) {
-    label.textContent = player.label;
-    playerLeft.append(label);
-  }
-  playerLeft.append(score);
-
-  return playerLeft;
-}
-
-function createPlayerImage(svgText: string): HTMLDivElement {
-  const picture = document.createElement("div");
-  picture.innerHTML = svgText;
-  picture.classList.add("players-img");
-
-  return picture;
-}
-
-function renderPlayers(themeData: ThemeData): void {
-  const players = document.getElementById("players");
-  if (!players) return;
-
-  const blue: Player = {
-    color: "Blue",
-    label: themeData.showLabel ? "Blue" : undefined,
-    score: scores.Blue,
-    svg: themeData.playerSvg,
-  };
-  const orange: Player = {
-    color: "Orange",
-    label: themeData.showLabel ? "Orange" : undefined,
-    score: scores.Orange,
-    svg: themeData.playerSvg,
-  };
-
-  players.append(createPlayerBox(blue), createPlayerBox(orange));
-}
-
-function currentPlayers(themeData: ThemeData): void {
-  const currPlayers = document.getElementById("currentPlayer");
-  if (!currPlayers) return;
-
-  currPlayers.innerHTML = themeData.playerSvg;
-  currPlayers.classList.remove("blue", "orange");
-  currPlayers.classList.add("current", currentPlayer.toLowerCase());
 }
 
 function isGameOver(): boolean {
@@ -148,7 +62,7 @@ function getWinner(): string {
 }
 
 function showGameOver(winner: string): void {
-  const themeData = theme ? themes[theme] : undefined;
+  const themeData = getCurrentTheme();
 
   document.body.innerHTML = "";
   document.body.classList.add("game-over-screen");
@@ -174,7 +88,7 @@ function showGameOver(winner: string): void {
 }
 
 function showWinner(winner: string): void {
-  const themeData = theme ? themes[theme] : undefined;
+  const themeData = getCurrentTheme();
   document.body.innerHTML = "";
   document.body.classList.add("game-over-screen");
   if (themeData?.confettiSvg && winner !== "Draw") {
