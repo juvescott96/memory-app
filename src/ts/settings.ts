@@ -7,8 +7,8 @@ const settingsTargets: Record<string, string> = {
 
 /** Maps each theme name to its preview image. */
 const themeImages: Record<string, string> = {
-  "Code vibes theme": "./public/assets/code-vibes-theme-card/cb-theme.svg",
-  "Gaming theme": "./public/assets/games-theme-cards/g-theme.svg",
+  "Code vibes theme": "./assets/code-vibes-theme-card/cb-theme.svg",
+  "Gaming theme": "./assets/games-theme-cards/g-theme.svg",
 };
 
 /** Shows the preview image of the selected theme. */

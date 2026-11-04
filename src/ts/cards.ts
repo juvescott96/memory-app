@@ -71,7 +71,7 @@ function buildCard(name: string, data: ThemeData): HTMLButtonElement {
   const front = createEl("div", "card__face") as HTMLDivElement;
   const back = createEl("div", "card__face card__face--back") as HTMLDivElement;
 
-  back.style.backgroundImage = `url(./public/assets/${data.folder}/${name}.svg)`;
+  back.style.backgroundImage = `url(./assets/${data.folder}/${name}.svg)`;
 
   inner.append(front, back);
   card.appendChild(inner);
