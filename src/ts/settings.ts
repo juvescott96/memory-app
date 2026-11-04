@@ -1,14 +1,17 @@
+/** Maps each setting group to the element that shows its chosen value. */
 const settingsTargets: Record<string, string> = {
   theme: "game-theme",
   player: "player",
   "board-size": "board-size",
 };
 
+/** Maps each theme name to its preview image. */
 const themeImages: Record<string, string> = {
   "Code vibes theme": "./public/assets/code-vibes-theme-card/cb-theme.svg",
   "Gaming theme": "./public/assets/games-theme-cards/g-theme.svg",
 };
 
+/** Shows the preview image of the selected theme. */
 function updateThemeImage(input: HTMLInputElement): void {
   const image = document.getElementById(
     "theme-visual",
@@ -19,6 +22,7 @@ function updateThemeImage(input: HTMLInputElement): void {
   }
 }
 
+/** Displays the selected value in the settings summary. */
 function updateChosenSetting(input: HTMLInputElement): void {
   const targetId = settingsTargets[input.name];
   if (!targetId) return;
@@ -33,8 +37,10 @@ function updateChosenSetting(input: HTMLInputElement): void {
   }
 }
 
+/** Names of all radio groups that must be selected before the game starts. */
 const settingsGroups = ["theme", "player", "board-size"];
 
+/** Enables the start button once every setting group has a selection. */
 function checkAllSelected(): void {
   const chosenSettings = document.querySelector(".chosen-settings");
   const startButton = document.querySelector(".disabledbtn");
@@ -52,26 +58,26 @@ function checkAllSelected(): void {
   }
 }
 
-const settingsRadios = document.querySelectorAll<HTMLInputElement>(
-  'aside.left-side input[type="radio"]',
-);
+/** Shows preselected settings and updates the summary on every change. */
+function initSettingsRadios(): void {
+  const settingsRadios = document.querySelectorAll<HTMLInputElement>(
+    'aside.left-side input[type="radio"]',
+  );
 
-settingsRadios.forEach((radio) => {
-  if (radio.checked) {
-    updateChosenSetting(radio);
-  }
+  settingsRadios.forEach((radio) => {
+    if (radio.checked) {
+      updateChosenSetting(radio);
+    }
 
-  radio.addEventListener("change", () => {
-    updateChosenSetting(radio);
-    checkAllSelected();
+    radio.addEventListener("change", () => {
+      updateChosenSetting(radio);
+      checkAllSelected();
+    });
   });
-});
+}
 
-checkAllSelected();
-
-const gameButton = document.getElementById("game-button");
-
-gameButton?.addEventListener("click", () => {
+/** Saves the chosen settings to localStorage and opens the game page. */
+function saveSettingsAndStart(): void {
   localStorage.setItem(
     "theme",
     document.querySelector<HTMLInputElement>('input[name="theme"]:checked')
@@ -88,4 +94,11 @@ gameButton?.addEventListener("click", () => {
       ?.value || "",
   );
   window.location.href = "game.html";
-});
+}
+
+initSettingsRadios();
+checkAllSelected();
+
+document
+  .getElementById("game-button")
+  ?.addEventListener("click", saveSettingsAndStart);

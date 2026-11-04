@@ -17,6 +17,7 @@ interface Player {
   svg: string;
 }
 
+/** Creates a container holding the player's SVG markup. */
 function createPlayerImage(svgText: string): HTMLElement {
   const picture = createEl("div", "players-img");
   picture.innerHTML = svgText;
@@ -24,6 +25,7 @@ function createPlayerImage(svgText: string): HTMLElement {
   return picture;
 }
 
+/** Builds a player box with image, optional label and score. */
 function createPlayerBox(player: Player): HTMLElement {
   const playerLeft = createEl("div", `content ${player.color.toLowerCase()}`);
 
@@ -42,6 +44,7 @@ function createPlayerBox(player: Player): HTMLElement {
   return playerLeft;
 }
 
+/** Renders both player boxes with their current scores. */
 function renderPlayers(themeData: ThemeData): void {
   const players = document.getElementById("players");
   if (!players) return;
@@ -62,6 +65,7 @@ function renderPlayers(themeData: ThemeData): void {
   players.append(createPlayerBox(blue), createPlayerBox(orange));
 }
 
+/** Shows the current player's image and color class. */
 function currentPlayers(themeData: ThemeData): void {
   const currPlayers = document.getElementById("currentPlayer");
   if (!currPlayers) return;
@@ -71,6 +75,7 @@ function currentPlayers(themeData: ThemeData): void {
   currPlayers.classList.add("current", currentPlayer.toLowerCase());
 }
 
+/** Switches to the other player and updates the display. */
 function switchPlayer() {
   if (currentPlayer === "Blue") {
     currentPlayer = "Orange";
@@ -81,6 +86,7 @@ function switchPlayer() {
   if (themeData) currentPlayers(themeData);
 }
 
+/** Writes the current player's score into the score element. */
 function updateScore(): void {
   const scoreRef = document.querySelector(
     `.${currentPlayer.toLowerCase()} .score`,
@@ -90,6 +96,7 @@ function updateScore(): void {
   scoreRef.textContent = String(scores[currentPlayer]);
 }
 
+/** Adds a point for the current player and updates the display. */
 function addPoint(): void {
   scores[currentPlayer] += 1;
   updateScore();

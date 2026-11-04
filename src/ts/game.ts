@@ -13,6 +13,7 @@ import { showGameOver } from "./end-screen";
 let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 
+/** Sets up theme, players, cards and dialog when the game page loads. */
 function init() {
   const fieldRef = document.getElementById("field");
   const themeData = getCurrentTheme();
@@ -29,12 +30,14 @@ function init() {
   createCards(themeData, boardSize);
 }
 
+/** Sets the theme id on the body so theme styles apply. */
 function setTheme(themeData?: ThemeData): void {
   if (themeData) {
     document.body.dataset.theme = themeData.id;
   }
 }
 
+/** Adds a point for the current player and ends the game when all pairs are found. */
 function handleMatch() {
   addPoint();
   if (isGameOver()) {
@@ -43,11 +46,13 @@ function handleMatch() {
   }
 }
 
+/** Returns true when all pairs have been found. */
 function isGameOver(): boolean {
   const foundPairs = scores.Orange + scores.Blue;
   return foundPairs === boardSize / 2;
 }
 
+/** Returns the player with more points, or "Draw" on a tie. */
 function getWinner(): string {
   if (scores.Blue > scores.Orange) {
     return "Blue";

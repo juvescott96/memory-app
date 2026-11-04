@@ -7,6 +7,7 @@ interface DialogElements {
   dialog: HTMLDialogElement;
 }
 
+/** Sets up the exit dialog and wires its buttons. */
 function exitDialog(): void {
   const elements = getDialogElements();
   if (!elements) return;
@@ -14,6 +15,7 @@ function exitDialog(): void {
   addButtonListeners(elements);
 }
 
+/** Returns the dialog and its buttons, or null if one is missing. */
 function getDialogElements(): DialogElements | null {
   const exitBtn = getButton("exit-btn");
   const backBtn = getButton("back-btn");
@@ -24,10 +26,12 @@ function getDialogElements(): DialogElements | null {
   return { exitBtn, backBtn, exitGameBtn, dialog };
 }
 
+/** Returns the button with the given id, or null if not found. */
 function getButton(id: string): HTMLButtonElement | null {
   return document.getElementById(id) as HTMLButtonElement | null;
 }
 
+/** Closes the dialog on a backdrop click or the Escape key. */
 function addDialogListeners(dialog: HTMLDialogElement): void {
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) {
@@ -41,6 +45,7 @@ function addDialogListeners(dialog: HTMLDialogElement): void {
   });
 }
 
+/** Wires the exit, back and exit game buttons. */
 function addButtonListeners(elements: DialogElements): void {
   elements.exitBtn.addEventListener("click", () => {
     elements.dialog.showModal();
@@ -54,6 +59,7 @@ function addButtonListeners(elements: DialogElements): void {
   });
 }
 
+/** Plays the closing animation, then closes the dialog. */
 function closeDialog(dialog: HTMLDialogElement): void {
   dialog.classList.add("closing");
 

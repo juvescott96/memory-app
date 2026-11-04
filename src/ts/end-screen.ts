@@ -12,6 +12,7 @@ interface FinalBox {
   draw: string;
 }
 
+/** Shows the final score screen, then the winner screen after 2 seconds. */
 function showGameOver(winner: string): void {
   const themeData = getCurrentTheme();
   resetScreen();
@@ -28,6 +29,7 @@ function showGameOver(winner: string): void {
   }, 2000);
 }
 
+/** Builds the Game Over layout with headline and player box. */
 function buildGameOverContent(): HTMLElement {
   const center = createEl("div", "game-over-content");
   const headline = createEl("h1", "game-over", "Game Over");
@@ -42,6 +44,7 @@ function buildGameOverContent(): HTMLElement {
   return center;
 }
 
+/** Shows the winner or draw screen with image, confetti and back button. */
 function showWinner(winner: string): void {
   const themeData = getCurrentTheme();
   resetScreen();
@@ -60,6 +63,7 @@ function showWinner(winner: string): void {
   document.body.append(center);
 }
 
+/** Adds confetti if the theme supports it and the game is not a draw. */
 function maybeAddConfetti(
   themeData: ThemeData | undefined,
   winner: string,
@@ -70,12 +74,14 @@ function maybeAddConfetti(
   }
 }
 
+/** Creates a container holding the given SVG markup. */
 function buildWinnerSvg(svgText: string): HTMLElement {
   const el = createEl("div", "winner-svg");
   el.innerHTML = svgText;
   return el;
 }
 
+/** Creates a button that leads back to the settings page. */
 function buildBackBtn(label: string): HTMLElement {
   const button = createEl("button", "backbutton", label);
   button.addEventListener("click", () => {
@@ -84,6 +90,7 @@ function buildBackBtn(label: string): HTMLElement {
   return button;
 }
 
+/** Returns title, headline and image for the winner or draw screen. */
 function getWinnerText(winner: string, data: ThemeData | undefined): FinalBox {
   if (winner === "Draw") {
     return {
@@ -99,12 +106,14 @@ function getWinnerText(winner: string, data: ThemeData | undefined): FinalBox {
   };
 }
 
+/** Creates the confetti element from three repeated SVGs. */
 function addConfetti(): HTMLElement {
   const confetti = createEl("div", "confetti");
   confetti.innerHTML = confettiSvg.repeat(3);
   return confetti;
 }
 
+/** Clears the page and applies the game over screen class. */
 function resetScreen(): void {
   document.body.innerHTML = "";
   document.body.classList.add("game-over-screen");
