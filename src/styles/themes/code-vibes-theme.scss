@@ -1,4 +1,5 @@
 @use "../base/typography" as tg;
+@use "../abstract/functions" as fct;
 
 [data-theme="code-vibes"] {
   background-color: #303131;
@@ -38,6 +39,9 @@
     border-width: 2px;
     transform: none;
     transition: none;
+    font-size: fct.px-to-rem(24);
+    font-family: tg.$font-secondary;
+    font-weight: 700;
 
     &:hover {
       background-color: #46615c;
@@ -53,87 +57,97 @@
       }
     }
   }
-}
 
-.players {
-  background-color: #415652;
-  padding: 20px;
-}
-
-.blue {
-  color: #2cb1ff;
-
-  & svg {
-    fill: #2cb1ff;
-  }
-}
-
-.orange {
-  color: #f58e39;
-
-  & svg {
-    fill: #f58e39;
-  }
-}
-
-&.game-over-screen {
-  .winner-title {
-    color: white;
+  .players {
+    background-color: #415652;
+    padding: 20px;
+    width: 296px;
   }
 
-  .blue .winner-headline {
+  .blue {
     color: #2cb1ff;
+
+    & svg {
+      fill: #2cb1ff;
+    }
   }
-  .orange .winner-headline {
+
+  .orange {
     color: #f58e39;
-  }
-  .draw .winner-headline {
-    color: #4dd5bc;
-    font-size: 140px;
-    text-shadow:
-      -4px -3px 2px rgba(77, 213, 188, 0.3),
-      0 0 1px white,
-      -4px -3px 2px white;
+
+    & svg {
+      fill: #f58e39;
+    }
   }
 
-  .winner-svg svg {
-    width: 200px;
-    height: 250px;
-    stroke-width: 0.1px;
-  }
-  .blue .winner-svg svg {
-    fill: #2cb1ff;
-    stroke: #2cb1ff;
-  }
-  .orange .winner-svg svg {
-    fill: #f58e39;
-    stroke: #f58e39;
-  }
-  .draw .winner-svg svg {
-    fill: #4dd5bc;
-    stroke: #4dd5bc;
-    width: 340px;
-    height: 270px;
-  }
-}
-
-dialog {
-  & button {
-    &#back-btn {
-      background-color: rgba(102, 207, 188, 1);
-
-      &:hover {
-        background-color: rgba(102, 207, 188, 0.8);
-      }
+  &.game-over-screen {
+    .winner-title {
+      color: white;
     }
 
-    &#exit-game-btn {
-      background-color: white;
-      border: solid 2px #4dd5bc;
+    h1 {
       color: #4dd5bc;
+      font-size: fct.px-to-rem(140);
+      text-shadow:
+        -4px -3px 2px rgba(77, 213, 188, 0.3),
+        0 0 1px white,
+        -4px -3px 2px white;
+    }
 
-      &:hover {
-        background-color: #4dd5bc20;
+    .blue .winner-headline {
+      color: #2cb1ff;
+    }
+    .orange .winner-headline {
+      color: #f58e39;
+    }
+    .draw .winner-headline {
+      color: #4dd5bc;
+      font-size: fct.px-to-rem(140);
+      text-shadow:
+        -4px -3px 2px rgba(77, 213, 188, 0.3),
+        0 0 1px white,
+        -4px -3px 2px white;
+    }
+
+    .winner-svg svg {
+      width: 200px;
+      height: 250px;
+      stroke-width: 0.1px;
+    }
+    .blue .winner-svg svg {
+      fill: #2cb1ff;
+      stroke: #2cb1ff;
+    }
+    .orange .winner-svg svg {
+      fill: #f58e39;
+      stroke: #f58e39;
+    }
+    .draw .winner-svg svg {
+      fill: #4dd5bc;
+      stroke: #4dd5bc;
+      width: 340px;
+      height: 270px;
+    }
+  }
+
+  dialog {
+    & button {
+      &#back-btn {
+        background-color: rgba(102, 207, 188, 1);
+
+        &:hover {
+          background-color: rgba(102, 207, 188, 0.8);
+        }
+      }
+
+      &#exit-game-btn {
+        background-color: white;
+        border: solid 2px #4dd5bc;
+        color: #4dd5bc;
+
+        &:hover {
+          background-color: #4dd5bc20;
+        }
       }
     }
   }

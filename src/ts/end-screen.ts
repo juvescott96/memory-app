@@ -53,7 +53,7 @@ function showWinner(winner: string): void {
   const title = createEl("p", "winner-title", finalBox.titleText);
   const headline = createEl("h2", "winner-headline", finalBox.headlineText);
   const playerSvg = buildWinnerSvg(finalBox.draw);
-  const button = buildBackBtn();
+  const button = buildBackBtn(themeData?.backBtnLabel ?? "Back to start");
 
   box.append(title, headline);
   center.append(box, playerSvg, button);
@@ -76,8 +76,8 @@ function buildWinnerSvg(svgText: string): HTMLElement {
   return el;
 }
 
-function buildBackBtn(): HTMLElement {
-  const button = createEl("button", "backbutton", "Back to start");
+function buildBackBtn(label: string): HTMLElement {
+  const button = createEl("button", "backbutton", label);
   button.addEventListener("click", () => {
     window.location.href = "settings.html";
   });

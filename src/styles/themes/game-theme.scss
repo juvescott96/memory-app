@@ -43,6 +43,9 @@
     border-radius: 10px;
     transform: none;
     transition: none;
+    font-size: fct.px-to-rem(20);
+    font-family: tg.$font-third;
+    font-weight: 700;
 
     &:hover {
       background-color: #444863;
@@ -120,11 +123,17 @@
     background-color: white;
     padding: 8px 16px;
     border-radius: 10px;
+    width: 180px;
   }
 
   &.game-over-screen {
     .winner-title {
       color: white;
+    }
+
+    h1 {
+      font-size: fct.px-to-rem(124);
+      color: #ed1b76;
     }
 
     .blue .winner-headline {

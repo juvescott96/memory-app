@@ -13,6 +13,7 @@ interface ThemeData {
   playerSvg: string;
   winnerSvg: string;
   confettiSvg: boolean;
+  backBtnLabel: string;
 }
 
 const themes: Record<string, ThemeData> = {
@@ -44,6 +45,7 @@ const themes: Record<string, ThemeData> = {
     playerSvg: themeCVT,
     winnerSvg: themeGT,
     confettiSvg: true,
+    backBtnLabel: "Back to start",
   },
   "Gaming theme": {
     id: "games-theme",
@@ -73,6 +75,7 @@ const themes: Record<string, ThemeData> = {
     playerSvg: themeGT,
     winnerSvg: winnerGt,
     confettiSvg: false,
+    backBtnLabel: "Home",
   },
 };
 

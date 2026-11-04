@@ -44,6 +44,7 @@
 
 .game-over-screen {
   @include fc.flex-center(column);
+  justify-content: flex-start;
 }
 
 .final-score-content {
@@ -57,6 +58,7 @@
 
 .game-over-content {
   @include fc.flex-center(column);
+  margin-block: auto;
   gap: 80px;
 }
 
@@ -69,14 +71,13 @@
 }
 
 .confetti {
-  position: absolute;
-  top: 0;
   display: flex;
+  flex-shrink: 0;
   overflow: hidden;
   width: 100%;
 
   & svg {
-    height: 327px;
+    height: 340px;
     width: 1234px;
     flex-shrink: 0;
 
