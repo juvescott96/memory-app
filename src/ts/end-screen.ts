@@ -81,10 +81,18 @@ function buildWinnerSvg(svgText: string): HTMLElement {
   return el;
 }
 
-/** Creates a button that leads back to the settings page. */
+/** Removes the saved settings so the next visit starts fresh. */
+function clearSavedSettings(): void {
+  ["theme", "player", "board-size"].forEach((key) => {
+    localStorage.removeItem(key);
+  });
+}
+
+/** Creates a button that clears the saved settings and returns to settings. */
 function buildBackBtn(label: string): HTMLElement {
   const button = createEl("button", "backbutton", label);
   button.addEventListener("click", () => {
+    clearSavedSettings();
     window.location.href = "settings.html";
   });
   return button;

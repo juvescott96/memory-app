@@ -122,6 +122,20 @@ function getCheckedTheme(): HTMLInputElement | null {
   );
 }
 
+/** Re-checks the radios saved by the last game, so leaving a game keeps them. */
+function restoreSettings(): void {
+  settingsGroups.forEach((name) => {
+    const value = localStorage.getItem(name);
+    if (!value) return;
+
+    const input = document.querySelector<HTMLInputElement>(
+      `input[name="${name}"][value="${value}"]`,
+    );
+    if (input) input.checked = true;
+  });
+}
+
+restoreSettings();
 initSettingsRadios();
 initThemeHover();
 checkAllSelected();
