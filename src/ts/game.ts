@@ -42,7 +42,9 @@ function handleMatch() {
   addPoint();
   if (isGameOver()) {
     const winner = getWinner();
-    showGameOver(winner);
+    setTimeout(() => {
+      showGameOver(winner);
+    }, 1000);
   }
 }
 

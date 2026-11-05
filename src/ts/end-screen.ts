@@ -17,8 +17,9 @@ function showGameOver(winner: string): void {
   const themeData = getCurrentTheme();
   resetScreen();
 
-  const center = buildGameOverContent();
-  document.body.append(center);
+  const screen = createEl("div", "screen");
+  screen.append(buildGameOverContent());
+  document.body.append(screen);
 
   if (themeData) {
     renderPlayers(themeData);
@@ -44,12 +45,21 @@ function buildGameOverContent(): HTMLElement {
   return center;
 }
 
-/** Shows the winner or draw screen with image, confetti and back button. */
+/** Slides the winner or draw screen in from the top over the old screen. */
 function showWinner(winner: string): void {
   const themeData = getCurrentTheme();
-  resetScreen();
-  maybeAddConfetti(themeData, winner);
+  const screen = createEl("div", "screen screen--enter");
 
+  maybeAddConfetti(screen, themeData, winner);
+  screen.append(buildWinnerContent(winner, themeData));
+  swapScreens(screen);
+}
+
+/** Builds the winner layout with headline, image and back button. */
+function buildWinnerContent(
+  winner: string,
+  themeData: ThemeData | undefined,
+): HTMLElement {
   const center = createEl("div", `game-over-content ${winner.toLowerCase()}`);
   const box = createEl("div", "final-score-content");
   const finalBox = getWinnerText(winner, themeData);
@@ -60,17 +70,27 @@ function showWinner(winner: string): void {
 
   box.append(title, headline);
   center.append(box, playerSvg, button);
-  document.body.append(center);
+  return center;
 }
 
-/** Adds confetti if the theme supports it and the game is not a draw. */
+/** Slides the old screen down and out while the next one slides in. */
+function swapScreens(next: HTMLElement): void {
+  const old = document.querySelector(".screen");
+  document.body.append(next);
+  if (!old) return;
+
+  old.classList.add("screen--leave");
+  old.addEventListener("animationend", () => old.remove(), { once: true });
+}
+
+/** Adds confetti to the screen if the theme supports it and it is no draw. */
 function maybeAddConfetti(
+  screen: HTMLElement,
   themeData: ThemeData | undefined,
   winner: string,
 ): void {
   if (themeData?.confettiSvg && winner !== "Draw") {
-    const confetti = addConfetti();
-    document.body.appendChild(confetti);
+    screen.append(addConfetti());
   }
 }
 

@@ -14,6 +14,15 @@
 .players {
   @include fc.flex-center(row);
   gap: 20px;
+
+  & .content {
+    flex: 1;
+  }
+}
+
+.score {
+  min-width: 1ch;
+  text-align: center;
 }
 
 .players-img {
@@ -42,8 +51,41 @@
 }
 
 .game-over-screen {
+  overflow: hidden;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
   @include fc.flex-center(column);
   justify-content: flex-start;
+  overflow: hidden;
+}
+
+.screen--enter {
+  animation: screen-enter 0.8s ease-in-out both;
+}
+
+.screen--leave {
+  animation: screen-leave 0.8s ease-in-out both;
+}
+
+@keyframes screen-enter {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes screen-leave {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
 }
 
 .final-score-content {
@@ -76,8 +118,8 @@
   width: 100%;
 
   & svg {
-    height: 340px;
-    width: 1234px;
+    height: 300px;
+    width: 900px;
     flex-shrink: 0;
 
     & rect {
