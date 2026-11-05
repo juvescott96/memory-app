@@ -60,20 +60,24 @@ function renderPlayers(themeData: ThemeData): void {
   const players = document.getElementById("players");
   if (!players) return;
 
-  const blue: Player = {
-    color: "Blue",
-    label: themeData.showLabel ? "Blue" : undefined,
-    score: scores.Blue,
-    svg: themeData.playerSvg,
-  };
-  const orange: Player = {
-    color: "Orange",
-    label: themeData.showLabel ? "Orange" : undefined,
-    score: scores.Orange,
-    svg: themeData.playerSvg,
-  };
-
+  const blue = buildPlayer("Blue", themeData);
+  const orange = buildPlayer("Orange", themeData);
   players.append(createPlayerBox(blue), createPlayerBox(orange));
+}
+
+/**
+ * Builds a player object for the given color.
+ * @param {Player["color"]} color - "Blue" or "Orange".
+ * @param {ThemeData} themeData - Current theme for label and image.
+ * @returns {Player} The finished player.
+ */
+function buildPlayer(color: Player["color"], themeData: ThemeData): Player {
+  return {
+    color,
+    label: themeData.showLabel ? color : undefined,
+    score: scores[color],
+    svg: themeData.playerSvg,
+  };
 }
 
 /**
@@ -90,7 +94,7 @@ function currentPlayers(themeData: ThemeData): void {
 }
 
 /** Switches to the other player and updates the display. */
-function switchPlayer() {
+function switchPlayer(): void {
   if (currentPlayer === "Blue") {
     currentPlayer = "Orange";
   } else {

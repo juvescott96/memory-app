@@ -14,7 +14,7 @@ let boardNumber: string | null = localStorage.getItem("board-size");
 const boardSize: number = boardNumber ? parseInt(boardNumber, 10) : 16;
 
 /** Sets up theme, players, cards and dialog when the game page loads. */
-function init() {
+function init(): void {
   const fieldRef = document.getElementById("field");
   const themeData = getCurrentTheme();
   setTheme(themeData);
@@ -30,6 +30,8 @@ function init() {
   createCards(themeData, boardSize);
 }
 
+document.addEventListener("DOMContentLoaded", init);
+
 /**
  * Sets the theme id on the body so theme styles apply.
  * @param {ThemeData} [themeData] - The current theme, if one is saved.
@@ -41,7 +43,7 @@ function setTheme(themeData?: ThemeData): void {
 }
 
 /** Adds a point for the current player and ends the game when all pairs are found. */
-function handleMatch() {
+function handleMatch(): void {
   addPoint();
   if (isGameOver()) {
     const winner = getWinner();
@@ -73,5 +75,3 @@ function getWinner(): string {
     return "Draw";
   }
 }
-
-init();

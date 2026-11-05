@@ -14,6 +14,24 @@ const themeImages: Record<string, string> = {
 /** Names of all radio groups that must be selected before the game starts. */
 const settingsGroups = ["theme", "player", "board-size"];
 
+/** Restores saved choices and wires up all settings page interactions. */
+function initSettings(): void {
+  restoreSettings();
+  initSettingsRadios();
+  initThemeHover();
+  checkAllSelected();
+  initStartButton();
+}
+
+document.addEventListener("DOMContentLoaded", initSettings);
+
+/** Saves the settings and starts the game when the start button is clicked. */
+function initStartButton(): void {
+  document
+    .getElementById("game-button")
+    ?.addEventListener("click", saveSettingsAndStart);
+}
+
 /**
  * Shows the preview image of the selected theme.
  * @param {HTMLInputElement} input - The theme radio input.
@@ -150,12 +168,3 @@ function restoreSettings(): void {
     if (input) input.checked = true;
   });
 }
-
-restoreSettings();
-initSettingsRadios();
-initThemeHover();
-checkAllSelected();
-
-document
-  .getElementById("game-button")
-  ?.addEventListener("click", saveSettingsAndStart);
