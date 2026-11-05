@@ -44,7 +44,7 @@
     .divider-diamond {
       width: 10px;
       height: 10px;
-      display: none;
+      visibility: hidden;
     }
 
     .divider-line {
@@ -59,14 +59,14 @@ fieldset {
     opacity: 1;
   }
 
-  label:hover .divider--label {
+  &.themes label:hover .divider--label {
     opacity: 1;
   }
 }
 
 .chosen-settings--complete .divider--chosen {
   .divider-diamond {
-    display: flex;
+    visibility: visible;
   }
 
   .divider-line {
