@@ -11,6 +11,9 @@ const themeImages: Record<string, string> = {
   "Gaming theme": "./assets/games-theme-cards/g-theme.svg",
 };
 
+/** Names of all radio groups that must be selected before the game starts. */
+const settingsGroups = ["theme", "player", "board-size"];
+
 /** Shows the preview image of the selected theme. */
 function updateThemeImage(input: HTMLInputElement): void {
   const image = document.getElementById(
@@ -36,9 +39,6 @@ function updateChosenSetting(input: HTMLInputElement): void {
     updateThemeImage(input);
   }
 }
-
-/** Names of all radio groups that must be selected before the game starts. */
-const settingsGroups = ["theme", "player", "board-size"];
 
 /** Enables the start button once every setting group has a selection. */
 function checkAllSelected(): void {
@@ -78,25 +78,52 @@ function initSettingsRadios(): void {
 
 /** Saves the chosen settings to localStorage and opens the game page. */
 function saveSettingsAndStart(): void {
-  localStorage.setItem(
-    "theme",
-    document.querySelector<HTMLInputElement>('input[name="theme"]:checked')
-      ?.value || "",
-  );
-  localStorage.setItem(
-    "player",
-    document.querySelector<HTMLInputElement>('input[name="player"]:checked')
-      ?.value || "",
-  );
-  localStorage.setItem(
-    "board-size",
-    document.querySelector<HTMLInputElement>('input[name="board-size"]:checked')
-      ?.value || "",
-  );
+  settingsGroups.forEach((name) => {
+    localStorage.setItem(name, getCheckedValue(name));
+  });
   window.location.href = "game.html";
 }
 
+/** Returns the value of the checked radio in the given group, or "". */
+function getCheckedValue(name: string): string {
+  return (
+    document.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)
+      ?.value ?? ""
+  );
+}
+
+/** Enables the hover preview for every theme option. */
+function initThemeHover(): void {
+  const hoverTheme = document.querySelectorAll<HTMLInputElement>(
+    'input[name="theme"]',
+  );
+  hoverTheme.forEach(addHoverPreview);
+}
+
+/** Previews the theme image on hover and restores the checked one on leave. */
+function addHoverPreview(radio: HTMLInputElement): void {
+  const label = radio.closest("label");
+  if (!label) return;
+
+  label.addEventListener("mouseenter", () => {
+    updateThemeImage(radio);
+  });
+
+  label.addEventListener("mouseleave", () => {
+    const checked = getCheckedTheme();
+    if (checked) updateThemeImage(checked);
+  });
+}
+
+/** Returns the currently selected theme input, or null if none is selected. */
+function getCheckedTheme(): HTMLInputElement | null {
+  return document.querySelector<HTMLInputElement>(
+    'input[name="theme"]:checked',
+  );
+}
+
 initSettingsRadios();
+initThemeHover();
 checkAllSelected();
 
 document
