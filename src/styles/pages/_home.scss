@@ -7,6 +7,7 @@
   color: white;
   height: 100vh;
   @include fc.flex-center(column);
+  overflow: hidden;
 }
 
 svg {
