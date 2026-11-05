@@ -14,7 +14,10 @@ const themeImages: Record<string, string> = {
 /** Names of all radio groups that must be selected before the game starts. */
 const settingsGroups = ["theme", "player", "board-size"];
 
-/** Shows the preview image of the selected theme. */
+/**
+ * Shows the preview image of the selected theme.
+ * @param {HTMLInputElement} input - The theme radio input.
+ */
 function updateThemeImage(input: HTMLInputElement): void {
   const image = document.getElementById(
     "theme-visual",
@@ -25,7 +28,10 @@ function updateThemeImage(input: HTMLInputElement): void {
   }
 }
 
-/** Displays the selected value in the settings summary. */
+/**
+ * Displays the selected value in the settings summary.
+ * @param {HTMLInputElement} input - The selected radio input.
+ */
 function updateChosenSetting(input: HTMLInputElement): void {
   const targetId = settingsTargets[input.name];
   if (!targetId) return;
@@ -84,7 +90,11 @@ function saveSettingsAndStart(): void {
   window.location.href = "game.html";
 }
 
-/** Returns the value of the checked radio in the given group, or "". */
+/**
+ * Returns the value of the checked radio in the given group, or "".
+ * @param {string} name - The radio group name, e.g. "theme".
+ * @returns {string} The checked value or an empty string.
+ */
 function getCheckedValue(name: string): string {
   return (
     document.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)
@@ -100,7 +110,10 @@ function initThemeHover(): void {
   hoverTheme.forEach(addHoverPreview);
 }
 
-/** Previews the theme image on hover and restores the checked one on leave. */
+/**
+ * Previews the theme image on hover and restores the checked one on leave.
+ * @param {HTMLInputElement} radio - The theme radio input.
+ */
 function addHoverPreview(radio: HTMLInputElement): void {
   const label = radio.closest("label");
   if (!label) return;
@@ -115,7 +128,10 @@ function addHoverPreview(radio: HTMLInputElement): void {
   });
 }
 
-/** Returns the currently selected theme input, or null if none is selected. */
+/**
+ * Returns the currently selected theme input, or null if none is selected.
+ * @returns {HTMLInputElement | null} The checked theme input or null.
+ */
 function getCheckedTheme(): HTMLInputElement | null {
   return document.querySelector<HTMLInputElement>(
     'input[name="theme"]:checked',

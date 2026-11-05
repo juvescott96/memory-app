@@ -30,7 +30,10 @@ function init() {
   createCards(themeData, boardSize);
 }
 
-/** Sets the theme id on the body so theme styles apply. */
+/**
+ * Sets the theme id on the body so theme styles apply.
+ * @param {ThemeData} [themeData] - The current theme, if one is saved.
+ */
 function setTheme(themeData?: ThemeData): void {
   if (themeData) {
     document.body.dataset.theme = themeData.id;
@@ -48,13 +51,19 @@ function handleMatch() {
   }
 }
 
-/** Returns true when all pairs have been found. */
+/**
+ * Returns true when all pairs have been found.
+ * @returns {boolean} True if every pair is found.
+ */
 function isGameOver(): boolean {
   const foundPairs = scores.Orange + scores.Blue;
   return foundPairs === boardSize / 2;
 }
 
-/** Returns the player with more points, or "Draw" on a tie. */
+/**
+ * Returns the player with more points, or "Draw" on a tie.
+ * @returns {string} "Blue", "Orange" or "Draw".
+ */
 function getWinner(): string {
   if (scores.Blue > scores.Orange) {
     return "Blue";

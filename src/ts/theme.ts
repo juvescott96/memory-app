@@ -79,7 +79,10 @@ const themes: Record<string, ThemeData> = {
   },
 };
 
-/** Returns the theme saved in localStorage, or undefined if none is saved. */
+/**
+ * Returns the theme saved in localStorage, or undefined if none is saved.
+ * @returns {ThemeData | undefined} The current theme or undefined.
+ */
 function getCurrentTheme(): ThemeData | undefined {
   const theme = localStorage.getItem("theme");
   return theme ? themes[theme] : undefined;

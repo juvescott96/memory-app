@@ -15,7 +15,10 @@ function exitDialog(): void {
   addButtonListeners(elements);
 }
 
-/** Returns the dialog and its buttons, or null if one is missing. */
+/**
+ * Returns the dialog and its buttons, or null if one is missing.
+ * @returns {DialogElements | null} The dialog elements or null.
+ */
 function getDialogElements(): DialogElements | null {
   const exitBtn = getButton("exit-btn");
   const backBtn = getButton("back-btn");
@@ -26,12 +29,19 @@ function getDialogElements(): DialogElements | null {
   return { exitBtn, backBtn, exitGameBtn, dialog };
 }
 
-/** Returns the button with the given id, or null if not found. */
+/**
+ * Returns the button with the given id, or null if not found.
+ * @param {string} id - The id of the button.
+ * @returns {HTMLButtonElement | null} The button or null.
+ */
 function getButton(id: string): HTMLButtonElement | null {
   return document.getElementById(id) as HTMLButtonElement | null;
 }
 
-/** Closes the dialog on a backdrop click or the Escape key. */
+/**
+ * Closes the dialog on a backdrop click or the Escape key.
+ * @param {HTMLDialogElement} dialog - The exit dialog.
+ */
 function addDialogListeners(dialog: HTMLDialogElement): void {
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) {
@@ -45,7 +55,10 @@ function addDialogListeners(dialog: HTMLDialogElement): void {
   });
 }
 
-/** Wires the exit, back and exit game buttons. */
+/**
+ * Wires the exit, back and exit game buttons.
+ * @param {DialogElements} elements - The dialog and its buttons.
+ */
 function addButtonListeners(elements: DialogElements): void {
   elements.exitBtn.addEventListener("click", () => {
     elements.dialog.showModal();
@@ -59,7 +72,10 @@ function addButtonListeners(elements: DialogElements): void {
   });
 }
 
-/** Plays the closing animation, then closes the dialog. */
+/**
+ * Plays the closing animation, then closes the dialog.
+ * @param {HTMLDialogElement} dialog - The exit dialog.
+ */
 function closeDialog(dialog: HTMLDialogElement): void {
   dialog.classList.add("closing");
 

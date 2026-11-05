@@ -17,7 +17,11 @@ interface Player {
   svg: string;
 }
 
-/** Creates a container holding the player's SVG markup. */
+/**
+ * Creates a container holding the player's SVG markup.
+ * @param {string} svgText - The SVG markup.
+ * @returns {HTMLElement} The container element.
+ */
 function createPlayerImage(svgText: string): HTMLElement {
   const picture = createEl("div", "players-img");
   picture.innerHTML = svgText;
@@ -25,7 +29,11 @@ function createPlayerImage(svgText: string): HTMLElement {
   return picture;
 }
 
-/** Builds a player box with image, optional label and score. */
+/**
+ * Builds a player box with image, optional label and score.
+ * @param {Player} player - Color, label, score and image of the player.
+ * @returns {HTMLElement} The player box.
+ */
 function createPlayerBox(player: Player): HTMLElement {
   const playerLeft = createEl("div", `content ${player.color.toLowerCase()}`);
 
@@ -44,7 +52,10 @@ function createPlayerBox(player: Player): HTMLElement {
   return playerLeft;
 }
 
-/** Renders both player boxes with their current scores. */
+/**
+ * Renders both player boxes with their current scores.
+ * @param {ThemeData} themeData - Current theme for the player image.
+ */
 function renderPlayers(themeData: ThemeData): void {
   const players = document.getElementById("players");
   if (!players) return;
@@ -65,7 +76,10 @@ function renderPlayers(themeData: ThemeData): void {
   players.append(createPlayerBox(blue), createPlayerBox(orange));
 }
 
-/** Shows the current player's image and color class. */
+/**
+ * Shows the current player's image and color class.
+ * @param {ThemeData} themeData - Current theme for the player image.
+ */
 function currentPlayers(themeData: ThemeData): void {
   const currPlayers = document.getElementById("currentPlayer");
   if (!currPlayers) return;

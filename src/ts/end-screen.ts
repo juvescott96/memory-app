@@ -12,7 +12,10 @@ interface FinalBox {
   draw: string;
 }
 
-/** Shows the final score screen, then the winner screen after 2 seconds. */
+/**
+ * Shows the final score screen, then the winner screen after 2 seconds.
+ * @param {string} winner - "Blue", "Orange" or "Draw".
+ */
 function showGameOver(winner: string): void {
   const themeData = getCurrentTheme();
   resetScreen();
@@ -30,7 +33,10 @@ function showGameOver(winner: string): void {
   }, 2000);
 }
 
-/** Builds the Game Over layout with headline and player box. */
+/**
+ * Builds the Game Over layout with headline and player box.
+ * @returns {HTMLElement} The finished layout.
+ */
 function buildGameOverContent(): HTMLElement {
   const center = createEl("div", "game-over-content");
   const headline = createEl("h1", "game-over", "Game Over");
@@ -45,7 +51,10 @@ function buildGameOverContent(): HTMLElement {
   return center;
 }
 
-/** Slides the winner or draw screen in from the top over the old screen. */
+/**
+ * Slides the winner or draw screen in from the top over the old screen.
+ * @param {string} winner - "Blue", "Orange" or "Draw".
+ */
 function showWinner(winner: string): void {
   const themeData = getCurrentTheme();
   const screen = createEl("div", "screen screen--enter");
@@ -55,7 +64,12 @@ function showWinner(winner: string): void {
   swapScreens(screen);
 }
 
-/** Builds the winner layout with headline, image and back button. */
+/**
+ * Builds the winner layout with headline, image and back button.
+ * @param {string} winner - "Blue", "Orange" or "Draw".
+ * @param {ThemeData | undefined} themeData - Current theme for image and label.
+ * @returns {HTMLElement} The finished layout.
+ */
 function buildWinnerContent(
   winner: string,
   themeData: ThemeData | undefined,
@@ -73,7 +87,10 @@ function buildWinnerContent(
   return center;
 }
 
-/** Slides the old screen down and out while the next one slides in. */
+/**
+ * Slides the old screen down and out while the next one slides in.
+ * @param {HTMLElement} next - The screen that slides in.
+ */
 function swapScreens(next: HTMLElement): void {
   const old = document.querySelector(".screen");
   document.body.append(next);
@@ -83,7 +100,12 @@ function swapScreens(next: HTMLElement): void {
   old.addEventListener("animationend", () => old.remove(), { once: true });
 }
 
-/** Adds confetti to the screen if the theme supports it and it is no draw. */
+/**
+ * Adds confetti to the screen if the theme supports it and it is no draw.
+ * @param {HTMLElement} screen - The screen that receives the confetti.
+ * @param {ThemeData | undefined} themeData - Current theme.
+ * @param {string} winner - "Blue", "Orange" or "Draw".
+ */
 function maybeAddConfetti(
   screen: HTMLElement,
   themeData: ThemeData | undefined,
@@ -94,7 +116,11 @@ function maybeAddConfetti(
   }
 }
 
-/** Creates a container holding the given SVG markup. */
+/**
+ * Creates a container holding the given SVG markup.
+ * @param {string} svgText - The SVG markup.
+ * @returns {HTMLElement} The container element.
+ */
 function buildWinnerSvg(svgText: string): HTMLElement {
   const el = createEl("div", "winner-svg");
   el.innerHTML = svgText;
@@ -108,7 +134,11 @@ function clearSavedSettings(): void {
   });
 }
 
-/** Creates a button that clears the saved settings and returns to settings. */
+/**
+ * Creates a button that clears the saved settings and returns to settings.
+ * @param {string} label - The button text.
+ * @returns {HTMLElement} The button element.
+ */
 function buildBackBtn(label: string): HTMLElement {
   const button = createEl("button", "backbutton", label);
   button.addEventListener("click", () => {
@@ -118,7 +148,12 @@ function buildBackBtn(label: string): HTMLElement {
   return button;
 }
 
-/** Returns title, headline and image for the winner or draw screen. */
+/**
+ * Returns title, headline and image for the winner or draw screen.
+ * @param {string} winner - "Blue", "Orange" or "Draw".
+ * @param {ThemeData | undefined} data - Current theme for the winner image.
+ * @returns {FinalBox} Title text, headline text and SVG markup.
+ */
 function getWinnerText(winner: string, data: ThemeData | undefined): FinalBox {
   if (winner === "Draw") {
     return {
@@ -134,7 +169,10 @@ function getWinnerText(winner: string, data: ThemeData | undefined): FinalBox {
   };
 }
 
-/** Creates the confetti element from three repeated SVGs. */
+/**
+ * Creates the confetti element from three repeated SVGs.
+ * @returns {HTMLElement} The confetti element.
+ */
 function addConfetti(): HTMLElement {
   const confetti = createEl("div", "confetti");
   confetti.innerHTML = confettiSvg.repeat(3);
